@@ -1,0 +1,6 @@
+.Header {
+    display: flex;
+    background-color: pink;
+    text-align: center;
+    justify-content: space-between;
+}

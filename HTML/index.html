@@ -3,27 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Page</title>
+
+    <!-- Header styling link-->
+    <link rel="stylesheet" href="/CSS/header.css">
+    
+    <title>Welcome</title>
 
     <!-- Class that will group everything together-->
     <div class="Header">
-        
+
         <!-- Header that will allow the user to navigate the page, login or sign up-->
         <!--Logo will be a dropdown-->
         <div class="Logo-dropdown-menu">
-            <ul>Logo</ul>
+            <ul><button>Logo</button></ul>
         </div>
 
         <!-- Searchbar inbetween the unordered list-->
         <div class="Searchbar">
-            <ul>Placeholder "Searchbar goes here"</ul>
+            <input type="text" placeholder="Search for book....">
         </div>
 
-        <!-- User can either login or signup-->
-        <div class="Login-signup-button">
+        <!-- User can login if they have an account-->
+        <div class="Login-button">
             <ul><button>Login</button></ul>
+        </div>
+
+        <!-- User can Signup if they have no account-->
+        <div class="Signup-button">
             <ul><button>Signup</button></ul>
         </div>
+
     </div>
 
 </head>
