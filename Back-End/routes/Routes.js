@@ -78,8 +78,47 @@ router.post('/post', async (req, res) => {
 });
 
 
-// create a new user and hash the password then send it to the db using bcrypt.
-// examples available on github (vera cleaning backend and chat app backend)
+router.post('/new-user', async (req, res) => { // http://localhost:5000/new-user
+    try{
+        const { username, password, email, profile_picture, bio, created_at } = req.body;
+        if (!username ) return res.status(400).json({ message: 'imagine trying to make an account with no username' });
+        if (!password) return res.status(400).json({ message: 'so you just sleep with your house doors wide open?' });
+        if (!email) return res.status(400).json({ message: 'who doesnt have an email? bruh' });
+
+        // creating a new user and sending the info to the db
+        //const hashedPassword = await bcrypt.hash(password, 10); // hashign the password so we cant be hacked by the IRS!!! (theyre watching me)
+        const newUser = new User({ username, password: await bcrypt.hash(password, 10), email, profile_picture, bio, created_at }); // nvm you can save space by running it directly
+        const savedUser = await newUser.save();
+        // it worked!
+        res.status(201).json(savedUser, "user created successfully");
+    }
+    catch(e){
+        console.log(e, e.message); // it dindt work - you suck
+    }    
+})
+
+// test data input for above endpoint: 
+// {
+//   "username": "testuser",
+//   "password": "SecureP@ssw0rd!",
+//   "email": "testuser@example.com",
+//   "profile_picture": "https://example.com/pic.jpg",
+//   "bio": "Just a test user.",
+//   "created_at": "2025-06-27T12:00:00Z"
+// }
+// test data output for above endpoint:
+// {
+//     "_id": "685eb59574dd5f1871531f3e",
+//     "username": "testuser",
+//     "email": "testuser@example.com",
+//     "password": "$2b$10$toVGZLBQpCLtEmiqVSRnZOGKUFOADTJGPesRPYUJ4Zvbnt60xyff6",
+//     "profile_picture": "https://example.com/pic.jpg",
+//     "bio": "Just a test user.",
+//     "created_at": "2025-06-27T12:00:00.000Z",
+//     "__v": 0
+// }
+
+
 
 
 //===================================== DELETE REQUEST =====================================//
