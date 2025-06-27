@@ -77,6 +77,7 @@ router.post('/post', async (req, res) => {
     }
 });
 
+//=============================
 
 router.post('/new-user', async (req, res) => { // http://localhost:5000/new-user
     try{
@@ -94,6 +95,7 @@ router.post('/new-user', async (req, res) => { // http://localhost:5000/new-user
     }
     catch(e){
         console.log(e, e.message); // it dindt work - you suck
+        res.status(500).json({ message: e.message });
     }    
 })
 
@@ -118,7 +120,83 @@ router.post('/new-user', async (req, res) => { // http://localhost:5000/new-user
 //     "__v": 0
 // }
 
+//=============================
 
+router.post('/new-story', async (req, res) => { // http://localhost:5000/new-story
+    try{
+        const { user_id, username, story_title, description, cover_image, genres, created_at, updated_at, chapters } = req.body;
+        let {status} = req.body; // so i can set it up as default draft
+
+        if(!story_title) return res.status(400).json({ message: "'hey i read this mid story... blank???'" });
+        if (!user_id) return res.status(400).json({ message: "user id required obviously how we gonna kow who wrote ts" });
+        if (!username) return res.status(400).json({ message: "we get it. youre misterious" });
+        if (!description) return res.status(400).json({ message: "do you even know what your story is about??" });
+        if (!genres || genres.length === 0) return res.status(400).json({ message: "wow! a genderless story" });
+        if (!status) status = "draft";
+        
+
+        const newStory = new Story({user_id, username, story_title, description, cover_image, status, genres, created_at, updated_at, chapters});
+        const savedStory = await newStory.save();
+        res.status(201).json({ message: "story created successfully", story: savedStory });
+    }catch(e){
+        console.log(e, e.message);
+        res.status(500).json({ message: e.message });
+    }
+})
+
+// test case data:
+// {
+//   "user_id": "642f4a1c7c9e4a1234567890",
+//   "username": "author123",
+//   "story_title": "My First Story",
+//   "description": "This is a thrilling adventure.",
+//   "cover_image": "https://example.com/cover.jpg",
+//   "status": "draft",
+//   "genres": ["adventure", "fantasy"],
+//   "created_at": "2025-06-27T12:00:00Z",
+//   "updated_at": "2025-06-27T12:00:00Z",
+//   "chapters": []
+// }
+
+
+//=============================
+
+router.post('/add-chapter/:storyId', async (req, res) => {
+  try {
+    const { storyId } = req.params;
+    const { title, content, chapter_number } = req.body;
+
+    if (!title || !content || !chapter_number) {
+      return res.status(400).json({ message: "missing chapter fields" });
+    }
+
+    const story = await Story.findById(storyId);
+    if (!story) return res.status(404).json({ message: "story not found" });
+
+    story.chapters.push({
+      title,
+      content,
+      chapter_number,
+      created_at: new Date(),
+      updated_at: new Date()
+    });
+
+    story.updated_at = new Date();
+    const updatedStory = await story.save();
+
+    res.status(200).json(updatedStory);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "failed to add chapter" });
+  }
+});
+
+// test case data:
+// {
+//   "title": "Chapter 1: The Beginning",
+//   "content": "Once upon a time...",
+//   "chapter_number": 1
+// }
 
 
 //===================================== DELETE REQUEST =====================================//
