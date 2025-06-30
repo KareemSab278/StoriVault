@@ -56,7 +56,7 @@ router.get('/stories/:id/chapters/:chapter_number', async (req, res) => { // htt
         
         if (!chapter) return res.status(404).json({ message: 'Chapter not found' });
         
-        if (chapter.content) console.log(chapter.content) // this logs the chapter content in the terminal
+        // if (chapter.content) console.log(chapter.content) // this logs the chapter content in the terminal
         res.status(200).json(chapter);
     } catch (error) {
         res.status(400).json({ message: error.message });
