@@ -9,17 +9,43 @@ import NavigationIcon from '@mui/icons-material/Navigation';
 export default function FloatingActionButtons() {
   return (
     <Box sx={{ '& > :not(style)': { m: 1 } }}>
-      <Fab color="primary" aria-label="add">
-        <AddIcon />
+      <Fab
+        variant="extended"
+        aria-label="add"
+        sx={{ backgroundColor: '#1976d2', color: 'white', '&:hover': { backgroundColor: '#115293' } }}
+      >
+        Add to List
+        <AddIcon sx={{ ml: 1 }} />
       </Fab>
-      <Fab color="secondary" aria-label="edit">
-        <EditIcon />
+      <Fab
+        variant="extended"
+        aria-label="create"
+        sx={{ backgroundColor: '#43a047', color: 'white', '&:hover': { backgroundColor: '#2e7031' } }}
+      >
+        New story
+        <EditIcon sx={{ ml: 1 }} />
       </Fab>
-      <Fab variant="extended">
+
+      <Fab
+        variant="extended"
+        aria-label="create"
+        sx={{ backgroundColor: '#800080', color: 'white', '&:hover': { backgroundColor: '#660066' } }}
+      >
+        Edit story
+        <EditIcon sx={{ ml: 1 }} />
+      </Fab>
+
+      <Fab
+        variant="extended"
+        sx={{ backgroundColor: '#fbc02d', color: '#333', '&:hover': { backgroundColor: '#c49000' } }}
+      >
         <NavigationIcon sx={{ mr: 1 }} />
-        Navigate
+        random btn
       </Fab>
-      <Fab disabled aria-label="like">
+      <Fab
+        aria-label="like"
+        sx={{ backgroundColor: '#e53935', color: 'white', '&:hover': { backgroundColor: '#ab000d' } }}
+      >
         <FavoriteIcon />
       </Fab>
     </Box>
