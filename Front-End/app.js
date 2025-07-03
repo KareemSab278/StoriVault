@@ -12,7 +12,7 @@ const getChapter = async (id, chapter_number) => {
 
 
 // need to add a chapter to a story //
-const addChapter = async (storyId, chapter) => {
+export const addChapter = async (storyId, chapter) => {
   try {
     const response = await fetch(`${url}add-chapter/${storyId}`, {
       method: 'POST',
@@ -28,4 +28,4 @@ const addChapter = async (storyId, chapter) => {
   }
 };
 
-export default { getChapter, addChapter }
+export default getChapter

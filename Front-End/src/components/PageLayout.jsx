@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
+import { motion } from 'framer-motion'
 
 const drawerWidth = 240;
 const navItems = ["Home", "Find Stories", "My Stories", "Account"];
@@ -51,7 +52,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -70,7 +70,7 @@ function PageLayout(props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" } }>
       <Typography variant="h6" sx={{ my: 2 }}>
         Your Username
       </Typography>
@@ -91,9 +91,9 @@ function PageLayout(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", bgcolor: "background.default", minHeight: "auto" }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{ bgcolor: '#124ba1' }}> {/* navbar colour (blue) */}
         <Toolbar>
           <IconButton
             color="inherit"
@@ -118,7 +118,7 @@ function PageLayout(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           ></Typography>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <Box sx={{ display: { xs: "none", sm: "block" }}}>
             {navItems.map((item) => (
               <Button key={item} sx={{ color: "#fff" }}>
                 {item}
@@ -141,19 +141,24 @@ function PageLayout(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              backgroundColor: '#124ba1',
+              color: '#fff',
             },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
+      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} style={{ textAlign: 'center', marginTop: '2rem' }}>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
         <Typography align="center" sx={{ mt: 4 }}>
           Loading...
         </Typography>
       </Box>
+      </motion.div>
     </Box>
+    
   );
 }
 
