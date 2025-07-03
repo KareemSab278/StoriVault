@@ -201,7 +201,33 @@ router.post('/add-chapter/:storyId', async (req, res) => {
 
 //===================================== DELETE REQUEST =====================================//
 
+router.delete('/user/:id', async (req, res) => { // http://localhost:5000/user/685eb59574dd5f1871531f3e
+    try {
+        const story = req.params.id; // this is the id of the user we want to delete
 
+        // Delete User
+        const deletedUser = await User.findByIdAndDelete(story);
+        if (!deletedUser) return res.status(404).json({ message: 'User not found' });
+
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+router.delete('/stories/:id', async (req, res) => { // http://localhost:5000/stories/685c5596c5cf817cd3d809ba
+    try {
+        const storyId = req.params.id; // this is the id of the story we want to delete
+
+        // Delete Story
+        const deletedStory = await Story.findByIdAndDelete(storyId);
+        if (!deletedStory) return res.status(404).json({ message: 'Story not found' });
+
+        res.status(200).json({ message: 'Story deleted successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
 
 //====================================== PUT REQUEST =====================================//
 
