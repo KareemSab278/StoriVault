@@ -14,10 +14,11 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
+        working-directory: ./Front-End
       - run: npm run build
+        working-directory: ./Front-End
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./Front-End/dist
 
-          
