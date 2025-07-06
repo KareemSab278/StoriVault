@@ -7,7 +7,7 @@ import { color } from "framer-motion";
 export default function TextBox(){
   const [text, setText] = useState("");
 
-  const [storyId, setStoryId] = useState('685c5596c5cf817cd3d809ba');// youll get these later when user selects a story and then a chapter but it is only here now for testing
+  const [storyId, setStoryId] = useState('686a7301c6e0afc1fd327c3e');// youll get these later when user selects a story and then a chapter but it is only here now for testing
   const [chapterNumber, setChapterNumber] = useState(1);
 
 

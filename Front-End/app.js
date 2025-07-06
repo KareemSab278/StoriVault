@@ -28,4 +28,14 @@ export const addChapter = async (storyId, chapter) => {
   }
 };
 
+export const getUser = async (id) => {
+  try {
+    const response = await fetch(`${url}user/${id}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
 export default getChapter

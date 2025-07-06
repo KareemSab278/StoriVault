@@ -18,9 +18,15 @@ import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { motion } from 'framer-motion'
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import ChapterPage from "../../pages/ChapterPage";
+import SignIn from '../../pages/SignIn';
+import SignUp from '../../pages/SignUp';
+import ProfilePage from '../../pages/ProfilePage';
+
 
 const drawerWidth = 240;
-const navItems = ["Home", "Find Stories", "My Stories", "Account"];
+const navItems = ["Chapter Page", "Sign In", "Sign Up", "Profile Page"];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,11 +68,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function PageLayout(props) {
+  const navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+
+  const navRoutes = {
+    "Chapter Page": "/chapter",
+    "Sign In": "/signin",
+    "Sign Up": "/signup",
+    "Profile Page": "/profile"
   };
 
   const drawer = (
@@ -78,7 +92,7 @@ function PageLayout(props) {
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemButton sx={{ textAlign: "center" }} onClick={() => navigate(navRoutes[item])}>
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
@@ -104,26 +118,25 @@ function PageLayout(props) {
           >
             <MenuIcon />
           </IconButton>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           ></Typography>
           <Box sx={{ display: { xs: "none", sm: "block" }}}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }}>
-                {item}
-              </Button>
-            ))}
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/chapter")}>Chapter Page</Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>Sign In</Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signup")}>Sign Up</Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/profile")}>Profile Page</Button>
           </Box>
         </Toolbar>
       </AppBar>
@@ -150,15 +163,19 @@ function PageLayout(props) {
         </Drawer>
       </nav>
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} style={{ textAlign: 'center', marginTop: '2rem' }}>
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
-        <Typography align="center" sx={{ mt: 4 }}>
-          Loading...
-        </Typography>
-      </Box>
+        <Box component="main" sx={{ p: 3 }}>
+          <Box sx={{ display: { xs: "none", sm: "block" }}}>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/chapter")}>Chapter Page</Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>Sign In</Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signup")}>Sign Up</Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/profile")}>Profile Page</Button>
+          </Box>
+          <Toolbar />
+          
+          {props.children}
+        </Box>
       </motion.div>
     </Box>
-    
   );
 }
 
