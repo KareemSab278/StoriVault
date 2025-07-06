@@ -164,12 +164,12 @@ function PageLayout(props) {
       </nav>
       <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} style={{ textAlign: 'center', marginTop: '2rem' }}>
         <Box component="main" sx={{ p: 3 }}>
-          <Box sx={{ display: { xs: "none", sm: "block" }}}>
+          {/* <Box sx={{ display: { xs: "none", sm: "block" }}}>
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/chapter")}>Chapter Page</Button>
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>Sign In</Button>
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/signup")}>Sign Up</Button>
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/profile")}>Profile Page</Button>
-          </Box>
+          </Box> */}
           <Toolbar />
           
           {props.children}
