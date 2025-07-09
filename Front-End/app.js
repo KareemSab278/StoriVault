@@ -1,6 +1,6 @@
 const url = 'http://localhost:5000/'
 
-const getChapter = async (id, chapter_number) => {
+ const getChapter = async (id, chapter_number) => {
     try {
         const response = await fetch(`${url}stories/${id}/chapters/${chapter_number}`);
         const data = await response.json();
@@ -10,9 +10,41 @@ const getChapter = async (id, chapter_number) => {
     }
 }
 
+const getAllChapters = async (id) => {
+  try {
+    const response = await fetch(`${url}stories/${id}/chapters`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+
+ const getStory = async (id) => {
+    try {
+        const response = await fetch(`${url}stories/${id}`);
+        const data = await response.json();
+        return data;
+  } catch (error) {
+        console.error(error.message);
+    }
+}
+
+const getAllStories = async () => {
+  try {
+    const response = await fetch(`${url}stories`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+
 
 // need to add a chapter to a story //
-export const addChapter = async (storyId, chapter) => {
+ const addChapter = async (storyId, chapter) => {
   try {
     const response = await fetch(`${url}add-chapter/${storyId}`, {
       method: 'POST',
@@ -28,7 +60,7 @@ export const addChapter = async (storyId, chapter) => {
   }
 };
 
-export const getUser = async (id) => {
+const getUser = async (id) => {
   try {
     const response = await fetch(`${url}user/${id}`);
     const data = await response.json();
@@ -38,4 +70,4 @@ export const getUser = async (id) => {
   }
 };
 
-export default getChapter
+export { getChapter, getStory, addChapter, getUser, getAllStories, getAllChapters};

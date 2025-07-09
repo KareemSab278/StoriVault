@@ -8,26 +8,23 @@ import { Routes, Route } from 'react-router-dom';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import ProfilePage from '../pages/ProfilePage';
+import LandingPage from '../pages/LandingPage';
+import { ChapterListPage } from '../pages/ChapterListPage';
 
 
-function Home() {
-  return (
-    <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} style={{ textAlign: 'center', marginTop: '2rem' }}>
-      <h1>Welcome to StoriVault!</h1>
-      <p>A place full of warewolf porn fantasies written by teen girls who dont shower</p>
-    </motion.div>
-  );
-}
+
 
 function App() {
   return (
     <PageLayout>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/chapter" element={<ChapterPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/chapters/:storyId" element={<ChapterListPage />} />
+        <Route path="/chapter/:storyId/:chapterNumber" element={<ChapterPage />} />
       </Routes>
     </PageLayout>
   );

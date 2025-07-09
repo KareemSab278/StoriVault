@@ -19,14 +19,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { motion } from 'framer-motion'
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import ChapterPage from "../../pages/ChapterPage";
-import SignIn from '../../pages/SignIn';
-import SignUp from '../../pages/SignUp';
-import ProfilePage from '../../pages/ProfilePage';
-
 
 const drawerWidth = 240;
-const navItems = ["Chapter Page", "Sign In", "Sign Up", "Profile Page"];
+const navItems = ["Landing Page", "Chapter Page", "Sign In", "Sign Up", "Profile Page"];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -80,7 +75,8 @@ function PageLayout(props) {
     "Chapter Page": "/chapter",
     "Sign In": "/signin",
     "Sign Up": "/signup",
-    "Profile Page": "/profile"
+    "Profile Page": "/profile",
+    "Landing Page": "/"
   };
 
   const drawer = (
@@ -133,6 +129,7 @@ function PageLayout(props) {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           ></Typography>
           <Box sx={{ display: { xs: "none", sm: "block" }}}>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/")}>Landing Page</Button>
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/chapter")}>Chapter Page</Button>
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>Sign In</Button>
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/signup")}>Sign Up</Button>

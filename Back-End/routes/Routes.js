@@ -37,6 +37,15 @@ router.get('/stories/:id', async (req, res) => { // http://localhost:5000/storie
     }
 });
 
+router.get('/stories', async (req, res) => { // http://localhost:5000/stories
+    try {
+        const stories = await Story.find({});
+        res.status(200).json(stories);
+    } catch{
+        res.status(400).json({ message: error.message });
+    };
+})
+
 
 router.get('/stories/:id/chapters', async (req, res) => { // http://localhost:5000/stories/685c5596c5cf817cd3d809ba/chapters
     try {
@@ -200,6 +209,7 @@ router.post('/add-chapter/:storyId', async (req, res) => {
     res.status(500).json({ message: "failed to add chapter" });
   }
 });
+
 
 // test case data:
 // {

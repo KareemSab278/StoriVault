@@ -7,15 +7,18 @@ function ProfilePage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getUser('685c5539c5cf817cd3d809b4')
-      .then(data => {
+    const fetchUser = async () => {
+      try {
+        const data = await getUser('685c5539c5cf817cd3d809b4');
         setUser(data);
+      } catch (err) {
+        setError('Failed to load user info.', err);
+      } finally {
         setLoading(false);
-      })
-      .catch(err => {
-        setError('Failed to load user info.');
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchUser();
   }, []);
 
   if (loading) return <div>Loading profile...</div>;
