@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getChapter } from "../app";
 import { ChapterCard } from "../src/components/ChapterCard";
+import { motion } from "framer-motion";
 
 
 // In production, you would get these from props, context, or the router (e.g. React Router):
@@ -36,7 +37,18 @@ function ChapterPage() {
   if (loading) return <div>Loading chapter...</div>;
   if (!chapter) return <div>Can't get chapter data</div>;
 
-  return <ChapterCard chapter={chapter} />;
+  return(
+    <>
+    <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          style={{ textAlign: "center", marginTop: "2rem" }}
+        >
+    <ChapterCard chapter={chapter}/>
+    </motion.div>
+    </>
+  );
 }
 
 export default ChapterPage;

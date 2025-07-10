@@ -54,7 +54,7 @@ router.get('/stories/:id/chapters', async (req, res) => { // http://localhost:50
 
         if ((story.chapters) && story.chapters.length > 0) { // this function prints all of the chapters' content in the console (run the url and check terminal in vscode)
             for(let i=0; i<story.chapters.length; i++){
-                console.log(story.chapters[i].content);
+                // console.log(story.chapters[i].content);
             }
         }
 

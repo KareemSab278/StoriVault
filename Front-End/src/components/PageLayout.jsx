@@ -17,11 +17,20 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
-import { motion } from 'framer-motion'
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { motion } from "framer-motion";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import { getAllStories } from "../../app";
+import { StoryCard } from "./StoryCard";
 
 const drawerWidth = 240;
-const navItems = ["Landing Page", "Chapter Page", "Sign In", "Sign Up", "Profile Page"];
+const navItems = [
+  "Landing Page",
+  "Chapter Page",
+  "Sign In",
+  "Sign Up",
+  "Profile Page",
+];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,7 +58,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const SearchField = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
@@ -67,6 +76,20 @@ function PageLayout(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchSearchResults = async () => {
+      const response = await getAllStories();
+      const data = response.filter((story) =>
+        story.story_title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setSearchResults(data);
+    };
+    fetchSearchResults();
+  }, [searchQuery]);
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -76,11 +99,11 @@ function PageLayout(props) {
     "Sign In": "/signin",
     "Sign Up": "/signup",
     "Profile Page": "/profile",
-    "Landing Page": "/"
+    "Landing Page": "/",
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" } }>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         Your Username
       </Typography>
@@ -88,7 +111,10 @@ function PageLayout(props) {
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }} onClick={() => navigate(navRoutes[item])}>
+            <ListItemButton
+              sx={{ textAlign: "center" }}
+              onClick={() => navigate(navRoutes[item])}
+            >
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
@@ -97,13 +123,28 @@ function PageLayout(props) {
     </Box>
   );
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleTitleClick = (story) => {
+  navigate(`/chapters/${story._id}`);
+  setSearchQuery("");
+  setSearchResults([]);
+
+  };
+
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", bgcolor: "background.default", minHeight: "auto" }}>
+    <Box
+      sx={{ display: "flex", bgcolor: "background.default", minHeight: "auto" }}
+    >
       <CssBaseline />
-      <AppBar component="nav" sx={{ bgcolor: '#124ba1' }}> {/* navbar colour (blue) */}
+      <AppBar component="nav" sx={{ bgcolor: "#124ba1" }}>
+        {" "}
+        {/* navbar colour (blue) */}
         <Toolbar>
           <IconButton
             color="inherit"
@@ -115,12 +156,47 @@ function PageLayout(props) {
             <MenuIcon />
           </IconButton>
           <Search>
+            {searchQuery && searchResults.length > 0 && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "56px",
+                  left: 0,
+                  right: 0,
+                  bgcolor: "background.paper",
+                  boxShadow: 3,
+                  zIndex: 1300,
+                  maxHeight: 200,
+                  overflowY: "auto",
+                }}
+              >
+                {searchResults.map((story) => (
+                  <Button
+                    key={story._id}
+                    onClick={() => handleTitleClick(story)}
+                    sx={{
+                      display: "block",
+                      width: "100%",
+                      textAlign: "left",
+                      px: 2,
+                      py: 1,
+                      textTransform: "none",
+                      color: "text.primary",
+                    }}
+                  >
+                    {story.story_title}
+                  </Button>
+                ))}
+              </Box>
+            )}
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
+
+            <SearchField
+              placeholder="Search"
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
           </Search>
           <Typography
@@ -128,12 +204,24 @@ function PageLayout(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           ></Typography>
-          <Box sx={{ display: { xs: "none", sm: "block" }}}>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/")}>Landing Page</Button>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/chapter")}>Chapter Page</Button>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>Sign In</Button>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signup")}>Sign Up</Button>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/profile")}>Profile Page</Button>
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/")}>
+              Landing Page
+            </Button>
+            {/* <Button sx={{ color: "#fff" }} onClick={() => navigate("/chapter")}>
+              Chapter Page
+            </Button> */}
+            {/* not really needed anymore tbh */}
+            
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>
+              Sign In
+            </Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signup")}>
+              Sign Up
+            </Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/profile")}>
+              Profile Page
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
@@ -151,24 +239,23 @@ function PageLayout(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              backgroundColor: '#124ba1',
-              color: '#fff',
+              backgroundColor: "#124ba1",
+              color: "#fff",
             },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
-      <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} style={{ textAlign: 'center', marginTop: '2rem' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        style={{ textAlign: "center", marginTop: "2rem" }}
+      >
         <Box component="main" sx={{ p: 3 }}>
-          {/* <Box sx={{ display: { xs: "none", sm: "block" }}}>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/chapter")}>Chapter Page</Button>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>Sign In</Button>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/signup")}>Sign Up</Button>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/profile")}>Profile Page</Button>
-          </Box> */}
           <Toolbar />
-          
+
           {props.children}
         </Box>
       </motion.div>
