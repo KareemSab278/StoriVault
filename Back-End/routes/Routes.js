@@ -190,7 +190,7 @@ router.delete('/user/:id', async (req, res) => { // http://localhost:5000/user/6
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-});
+}); 
 
 //=============================
 
