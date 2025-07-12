@@ -118,27 +118,6 @@ router.post('/new-user', async (req, res) => { // http://localhost:5000/new-user
     }    
 })
 
-// test data input for above endpoint: 
-// {
-//   "username": "testuser",
-//   "password": "SecureP@ssw0rd!",
-//   "email": "testuser@example.com",
-//   "profile_picture": "https://example.com/pic.jpg",
-//   "bio": "Just a test user.",
-//   "created_at": "2025-06-27T12:00:00Z"
-// }
-// test data output for above endpoint:
-// {
-//     "_id": "685eb59574dd5f1871531f3e",
-//     "username": "testuser",
-//     "email": "testuser@example.com",
-//     "password": "$2b$10$toVGZLBQpCLtEmiqVSRnZOGKUFOADTJGPesRPYUJ4Zvbnt60xyff6",
-//     "profile_picture": "https://example.com/pic.jpg",
-//     "bio": "Just a test user.",
-//     "created_at": "2025-06-27T12:00:00.000Z",
-//     "__v": 0
-// }
-
 //=============================
 
 router.post('/new-story', async (req, res) => { // http://localhost:5000/new-story
@@ -162,20 +141,6 @@ router.post('/new-story', async (req, res) => { // http://localhost:5000/new-sto
         res.status(500).json({ message: e.message });
     }
 })
-
-// test case data:
-// {
-//   "user_id": "642f4a1c7c9e4a1234567890",
-//   "username": "author123",
-//   "story_title": "My First Story",
-//   "description": "This is a thrilling adventure.",
-//   "cover_image": "https://example.com/cover.jpg",
-//   "status": "draft",
-//   "genres": ["adventure", "fantasy"],
-//   "created_at": "2025-06-27T12:00:00Z",
-//   "updated_at": "2025-06-27T12:00:00Z",
-//   "chapters": []
-// }
 
 
 //=============================
@@ -211,14 +176,6 @@ router.post('/add-chapter/:storyId', async (req, res) => {
 });
 
 
-// test case data:
-// {
-//   "title": "Chapter 1: The Beginning",
-//   "content": "Once upon a time...",
-//   "chapter_number": 1
-// }
-
-
 //===================================== DELETE REQUEST =====================================//
 
 router.delete('/user/:id', async (req, res) => { // http://localhost:5000/user/685eb59574dd5f1871531f3e
@@ -234,6 +191,8 @@ router.delete('/user/:id', async (req, res) => { // http://localhost:5000/user/6
         res.status(400).json({ message: error.message });
     }
 });
+
+//=============================
 
 router.delete('/stories/:id', async (req, res) => { // http://localhost:5000/stories/685c5596c5cf817cd3d809ba
     try {
@@ -252,5 +211,9 @@ router.delete('/stories/:id', async (req, res) => { // http://localhost:5000/sto
 //====================================== PUT REQUEST =====================================//
 
 
+
+
+
+//====================================== END =====================================//
 
 module.exports = router;
