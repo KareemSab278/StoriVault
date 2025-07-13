@@ -1,98 +1,36 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import { styled, alpha } from "@mui/material/styles";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
+import {
+  AppBar, Box, CssBaseline, Divider, Drawer, 
+  IconButton, List, ListItem, ListItemButton,
+  ListItemText, Toolbar, Typography, Button } from "@mui/material";
+
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import SearchIcon from "@mui/icons-material/Search";
-import InputBase from "@mui/material/InputBase";
 import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import { getAllStories } from "../../app";
-import { StoryCard } from "./StoryCard";
+import { getUser } from "../../app";
+import { SearchBar } from "./SearchBar";
 
-const drawerWidth = 240;
-const navItems = [
-  "Landing Page",
-  "Chapter Page",
-  "Sign In",
-  "Sign Up",
-  "Profile Page",
-];
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const SearchField = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
+const navItems = ["Landing Page", "Sign In", "Sign Up", "Profile Page"];
 
 function PageLayout(props) {
   const navigate = useNavigate();
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [signedInUser, setSignedInUser] = useState('guest user')
+  const [searchResults, setSearchResults] = useState([]);
 
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState([]);
-
-  React.useEffect(() => {
-    const fetchSearchResults = async () => {
-      const response = await getAllStories();
-      const data = response.filter((story) =>
-        story.story_title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setSearchResults(data);
-    };
-    fetchSearchResults();
-  }, [searchQuery]);
+  useEffect(() => {
+  const updateSignedInUser = async () => {
+    const username = await getUser('685c5539c5cf817cd3d809b4') // the username is hardcoded so change it by getting the signed in user later (waiting for sign in to be implemented)
+    setSignedInUser(username.username)
+    }
+    updateSignedInUser();
+  }, [])
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+  
 
   const navRoutes = {
     "Chapter Page": "/chapter",
@@ -105,7 +43,7 @@ function PageLayout(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        Your Username
+        {signedInUser ? signedInUser : 'Guest User'}
       </Typography>
       <Divider />
       <List>
@@ -123,16 +61,7 @@ function PageLayout(props) {
     </Box>
   );
 
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleTitleClick = (story) => {
-  navigate(`/chapters/${story._id}`);
-  setSearchQuery("");
-  setSearchResults([]);
-
-  };
+  
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -142,63 +71,19 @@ function PageLayout(props) {
       sx={{ display: "flex", bgcolor: "background.default", minHeight: "auto" }}
     >
       <CssBaseline />
-      <AppBar component="nav" sx={{ bgcolor: "#124ba1" }}>
-        {" "}
-        {/* navbar colour (blue) */}
+      <AppBar component="nav" sx={{ bgcolor: "#124ba1" }}> {/* navbar colour (blue) */}
+        {/* {"custom text"} */}
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
+          <IconButton color="inherit" aria-label="open drawer" edge="start" sx={{ mr: 2, display: { sm: "none" } }} onClick={handleDrawerToggle}>
+            
             <MenuIcon />
+          
           </IconButton>
-          <Search>
-            {searchQuery && searchResults.length > 0 && (
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: "56px",
-                  left: 0,
-                  right: 0,
-                  bgcolor: "background.paper",
-                  boxShadow: 3,
-                  zIndex: 1300,
-                  maxHeight: 200,
-                  overflowY: "auto",
-                }}
-              >
-                {searchResults.map((story) => (
-                  <Button
-                    key={story._id}
-                    onClick={() => handleTitleClick(story)}
-                    sx={{
-                      display: "block",
-                      width: "100%",
-                      textAlign: "left",
-                      px: 2,
-                      py: 1,
-                      textTransform: "none",
-                      color: "text.primary",
-                    }}
-                  >
-                    {story.story_title}
-                  </Button>
-                ))}
-              </Box>
-            )}
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
 
-            <SearchField
-              placeholder="Search"
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-          </Search>
+          {/* <SearchBar useCase="Search Stories" /> */}
+          <SearchBar useCase="Search Users" />
+
+
           <Typography
             variant="h6"
             component="div"
@@ -211,8 +96,6 @@ function PageLayout(props) {
             {/* <Button sx={{ color: "#fff" }} onClick={() => navigate("/chapter")}>
               Chapter Page
             </Button> */}
-            {/* not really needed anymore tbh */}
-            
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/signin")}>
               Sign In
             </Button>
@@ -262,5 +145,5 @@ function PageLayout(props) {
     </Box>
   );
 }
-
+const drawerWidth = 240;
 export default PageLayout;

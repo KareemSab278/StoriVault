@@ -1,7 +1,4 @@
-import { motion } from 'framer-motion' // added in for simple and quick animations. no need for writing any yourself. saves hastle.
 import './styles/App.css'
-import TextBox from './components/TextBox'
-import FloatingActionButtons from './components/FloatingButtons'
 import PageLayout from './components/PageLayout';
 import ChapterPage from '../pages/ChapterPage';
 import { Routes, Route } from 'react-router-dom';
