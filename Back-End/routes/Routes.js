@@ -210,7 +210,34 @@ router.delete('/stories/:id', async (req, res) => { // http://localhost:5000/sto
 
 //====================================== PUT REQUEST =====================================//
 
+// edit-story/:id
+router.put('/update-story/:id', async (req, res) => {  // http://localhost:5000/update-story/686a7301c6e0afc1fd327c3e
 
+    const storyId = req.params.id;
+    const { story_title, description, genres} = req.body;
+    
+    try {
+        const story = await Story.findById(storyId);
+        if(!story_title, !description, !genres) return res.status(400).json({ message: "missing fields"});
+
+        story.story_title = story_title;
+        story.description = description;
+        story.genres = genres;
+        story.updated_at = new Date();
+
+        await story.save();
+        res.status(200).json({ message: "story updated successfully" });
+
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+})
+
+// {
+//   "story_title": "The Last Horizon",
+//   "description": "A journey beyond the stars.",
+//   "genres": ["Sci-Fi", "Adventure"]
+// }
 
 
 
