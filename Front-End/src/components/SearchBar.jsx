@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { Box, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +9,12 @@ import {
   SearchField,
 } from "../styles/searchBarStyle";
 import useDebounce from "../custom hooks/Debouncer";
+import { color } from "framer-motion";
 
 export const SearchBar = ({ useCase }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  
 
   const debounceSearchQuery = useDebounce(searchQuery, 700);
 
@@ -38,6 +40,7 @@ export const SearchBar = ({ useCase }) => {
       );
 
       setSearchResults(filtered);
+      console.log('fetchData function in SearchBar.jsx called')
     };
 
     fetchData();
@@ -59,6 +62,7 @@ export const SearchBar = ({ useCase }) => {
     <Search>
       {searchQuery && searchResults.length > 0 && (
         <Box
+          
           sx={{
             position: "absolute",
             top: "56px",
@@ -69,7 +73,9 @@ export const SearchBar = ({ useCase }) => {
             zIndex: 1300,
             maxHeight: 200,
             overflowY: "auto",
+            
           }}
+          
         >
           {searchResults.map((item) => (
             <Button

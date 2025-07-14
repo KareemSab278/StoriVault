@@ -1,17 +1,35 @@
+import { React, useState, useEffect } from "react";
+
 export function StoryCard({ story, onClick }) {
+  
+  
+
+
+  const [over, setOver] = useState(false); // set the state of the mouse hover
+  const cardStyle = { // create the style object here
+    width: "80%",
+    margin: "2rem auto",
+    padding: 12,
+    border: "1px solid #ccc",
+    borderRadius: 8,
+    cursor: "pointer",
+    transform: "scale(1)",
+    transition: "transform 0.2s ease"
+  }
+  cardStyle.transform = over ? 'scale(1.1)' : 'scale(1)'; // condition for hover or nah
+
+
+
   if (!story) return <div>No story data</div>;
 
   return (
     <div
       onClick={onClick}
-      style={{
-        width: "80%",
-        margin: "2rem auto",
-        padding: 12,
-        border: "1px solid #ccc",
-        borderRadius: 8,
-        cursor: "pointer",
-      }}
+
+      style={ cardStyle }                 // this
+      onMouseOver={() => setOver(true)}   // is
+      onMouseOut={() => setOver(false)}   // the hover effect
+      
     >
       <h2><strong>{story.story_title}</strong></h2>
       <img

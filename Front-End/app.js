@@ -4,6 +4,7 @@ const url = 'http://localhost:5000/'
     try {
         const response = await fetch(`${url}stories/${id}/chapters/${chapter_number}`);
         const data = await response.json();
+        console.log('getChapter function called from app.js')
         return data;
   } catch (error) {
         console.error(error.message);
@@ -14,6 +15,7 @@ const getAllChapters = async (id) => {
   try {
     const response = await fetch(`${url}stories/${id}/chapters`);
     const data = await response.json();
+    console.log('getAllChapters function called from app.js')
     return data;
   } catch (error) {
     console.error(error.message);
@@ -25,6 +27,7 @@ const getAllChapters = async (id) => {
     try {
         const response = await fetch(`${url}stories/${id}`);
         const data = await response.json();
+        console.log('getStory function called from app.js')
         return data;
   } catch (error) {
         console.error(error.message);
@@ -35,6 +38,7 @@ const getAllStories = async () => {
   try {
     const response = await fetch(`${url}stories`);
     const data = await response.json();
+    console.log('getAllStories function called from app.js')
     return data;
   } catch (error) {
     console.error(error.message);
@@ -54,6 +58,7 @@ const getAllStories = async () => {
       body: JSON.stringify(chapter)
     });
     const data = await response.json();
+    console.log('addChapter function called from app.js')
     return data;
   } catch (error) {
     console.log(error.message);
@@ -64,6 +69,7 @@ const getUser = async (id) => {
   try {
     const response = await fetch(`${url}user/${id}`);
     const data = await response.json();
+    console.log('getUser function called from app.js')
     return data;
   } catch (error) {
     console.error(error.message);
@@ -74,6 +80,7 @@ const getAllUsers = async () => {
     try {
       const response = await fetch(`${url}user`);
       const data = await response.json();
+      console.log('getAllUsers function called from app.js')
       return data;
     } catch (error) {
       console.error(error.message);

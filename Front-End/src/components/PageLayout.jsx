@@ -81,7 +81,7 @@ function PageLayout(props) {
           </IconButton>
 
           {/* <SearchBar useCase="Search Stories" /> */}
-          <SearchBar useCase="Search Users" />
+          <SearchBar useCase="Search Stories" />
 
 
           <Typography
