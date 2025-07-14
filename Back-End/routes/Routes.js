@@ -241,7 +241,7 @@ router.put('/update-story/:id', async (req, res) => {  // http://localhost:5000/
 
 //=============================
 
-router.put('/stories/:id/chapters/:chapter_number', async (req, res) => {
+router.put('/stories/:id/chapters/:chapter_number', async (req, res) => { // http://localhost:5000/stories/686a7301c6e0afc1fd327c3e/chapters/1
     try {
         const storyId = req.params.id;
         const chapterNumber = parseInt(req.params.chapter_number);
@@ -270,8 +270,10 @@ router.put('/stories/:id/chapters/:chapter_number', async (req, res) => {
     }
 });
 
-
-
+// {
+//   "title": "Updated Chapter Title",
+//   "content": "Updated chapter content goes here."
+// }
 
 //====================================== END =====================================//
 
