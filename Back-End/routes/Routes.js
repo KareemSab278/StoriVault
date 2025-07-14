@@ -239,6 +239,38 @@ router.put('/update-story/:id', async (req, res) => {  // http://localhost:5000/
 //   "genres": ["Sci-Fi", "Adventure"]
 // }
 
+//=============================
+
+router.put('/stories/:id/chapters/:chapter_number', async (req, res) => {
+    try {
+        const storyId = req.params.id;
+        const chapterNumber = parseInt(req.params.chapter_number);
+        const { title, content } = req.body;
+
+        if (!title || !content) {
+            return res.status(400).json({ message: "Missing title or content" });
+        }
+
+        const story = await Story.findById(storyId);
+        if (!story) return res.status(404).json({ message: "Story not found" });
+
+        const chapter = story.chapters.find(c => c.chapter_number === chapterNumber);
+        if (!chapter) return res.status(404).json({ message: "Chapter not found" });
+
+        chapter.title = title;
+        chapter.content = content;
+        chapter.updated_at = new Date();
+
+        await story.save();
+        res.status(200).json({ message: "Chapter updated successfully", chapter });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
 
 
 //====================================== END =====================================//
