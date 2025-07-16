@@ -65,6 +65,24 @@ const getAllStories = async () => {
   }
 };
 
+const createNewStory = async (story) => {
+  try{
+    const response = await fetch(`${url}new-story`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(story)
+    });
+    const data = await response.json();
+    console.log('createNewStory function called from app.js')
+    return data;
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 const getUser = async (id) => {
   try {
     const response = await fetch(`${url}user/${id}`);
@@ -88,4 +106,6 @@ const getAllUsers = async () => {
 };
 
 
-export { getChapter, getStory, addChapter, getUser, getAllStories, getAllChapters, getAllUsers};
+
+
+export { getChapter, getStory, addChapter, getUser, getAllStories, getAllChapters, getAllUsers, createNewStory };

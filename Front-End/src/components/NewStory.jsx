@@ -1,27 +1,78 @@
-// Hey @Ajay 
-// your next task is to build the layout for a React form component where a user can create a new story.
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { createNewStory } from "../../app";
 
-// This is just UI only so no submission or functionality needed yet.
+export function NewStory() {
+  const [story, setStory] = useState({
+    story_title: "",
+    description: "",
+    cover_image: "",
+    genres: "",
+    status: "draft",
+  });
 
-// The form should include labeled inputs for:
+  const handleChange = (e) => {
+    const { name, value, multiple, options } = e.target;
 
-// Story ID (text input)
+    if (multiple) {
+      const selected = [...options]
+        .filter((option) => option.selected)
+        .map((option) => option.value);
+      setStory((prev) => ({ ...prev, [name]: selected }));
+    } else {
+      setStory((prev) => ({ ...prev, [name]: value }));
+    }
+  };
 
-// User ID (text input)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = {
+      ...story,
+      user_id: "685c55f7c5cf817cd3d809bd", // currently the user id is hard coded but we should be getting it when routing around in the app
+      genres: story.genres,
+      created_at: new Date(),
+      updated_at: new Date(),
+      chapters: [],
+    };
+    await createNewStory(payload);
+  };
 
-// Story Title (text input)
-
-// Genres (text input for now — comma separated)
-
-// Description (textarea)
-
-// Make it clean, readable, and easy to fill out. No validation or logic for now, just structure and styling.
-
-// Also you should display the component successfully on the bottom of the LandingPage.jsx by importing your newly made component.
-
-// Place the component in src/components/NewStory.jsx
-// Ping me when it's ready or if you have questions.
-
-// this should not be a hard task but you are meant to struggle a bit. this task is due by wednesday (enough time for you to tackle it)
-
-// when youre done just dm me and ill review the code!
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        name="story_title"
+        placeholder="Story Title"
+        onChange={handleChange}
+        required
+      />
+      <textarea
+        name="description"
+        placeholder="Description"
+        onChange={handleChange}
+        required
+      />
+      <input
+        name="cover_image"
+        placeholder="Cover Image URL"
+        onChange={handleChange}
+      />
+      <select multiple name="genres" onChange={handleChange} required>
+        <option value="">Select Genre</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Science Fiction">Science Fiction</option>
+        <option value="Mystery">Mystery</option>
+        <option value="Romance">Romance</option>
+        <option value="Horror">Horror</option>
+        <option value="Thriller">Thriller</option>
+        <option value="Historical">Historical</option>
+        <option value="Young Adult">Young Adult</option>
+        <option value="Non-Fiction">Non-Fiction</option>
+      </select>
+      <select name="status" onChange={handleChange}>
+        <option value="draft">Draft</option>
+        <option value="published">Published</option>
+      </select>
+      <button type="submit">Submit Story</button>
+    </form>
+  );
+}
