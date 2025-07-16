@@ -34,6 +34,7 @@ const getAllChapters = async (id) => {
     }
 }
 
+
 const getAllStories = async () => {
   try {
     const response = await fetch(`${url}stories`);
