@@ -244,7 +244,7 @@ router.put('/update-story/:id', async (req, res) => {  // http://localhost:5000/
     
     try {
         const story = await Story.findById(storyId);
-        if(!story_title, !description, !genres) return res.status(400).json({ message: "missing fields"});
+        if(!story_title || !description || !genres) return res.status(400).json({ message: "missing fields"});
 
         story.story_title = story_title;
         story.description = description;
@@ -303,18 +303,22 @@ router.put('/stories/:id/chapters/:chapter_number', async (req, res) => { // htt
 
 //=============================
 
-router.put('/user/:id', async (req, res) => { // http://localhost:5000/user/685c5539c5cf817cd3d809b4
+router.put('/edit-user/:id', async (req, res) => { // http://localhost:5000/edit-user/685c5539c5cf817cd3d809b4
     try {
         const userId = req.params.id;
-        const { username, email, profile_picture, bio } = req.body;
+        const { username, email, profile_picture, bio } = req.body; 
 
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: 'User not found' });
 
-        if (username) user.username = username;
-        if (email) user.email = email;
-        if (profile_picture) user.profile_picture = profile_picture;
-        if (bio) user.bio = bio;
+        if (username || email || profile_picture || bio){
+            user.username = username;
+            user.email = email;
+            user.profile_picture = profile_picture;
+            user.bio = bio;
+        } else {
+            res.status(404).json({ message: 'missing info' });
+        }
 
         await user.save();
         res.status(200).json({ message: 'User updated successfully', user });
