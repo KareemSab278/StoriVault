@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getChapter } from "../app";
 import { ChapterCard } from "../src/components/ChapterCard";
 import { motion } from "framer-motion";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 // In production, you would get these from props, context, or the router (e.g. React Router):
@@ -17,6 +18,7 @@ function ChapterPage() {
   const { storyId, chapterNumber } = useParams();
   const [chapter, setChapter] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchChapter() {
@@ -46,6 +48,11 @@ function ChapterPage() {
           style={{ textAlign: "center", marginTop: "2rem" }}
         >
     <ChapterCard chapter={chapter}/>
+    <button style={{margin : "20px", background: "red"}} onClick={() => navigate("/")}>delete chapter</button>
+    <button style={{margin : "20px", background: "yellow", color: "black"}}>edit chapter</button>
+
+    {/* <button style={{margin : "20px", background: "green"}}>publish chapter</button> */} 
+    {/* idk if we are publishing chapters or stories yet. right now it is just stories */}
     </motion.div>
     </>
   );

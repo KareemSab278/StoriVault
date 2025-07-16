@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getAllChapters } from "../app";
 import { motion } from "framer-motion";
-import { NewStory } from "../src/components/NewStory";
 
 export function ChapterListPage() {
   const { storyId } = useParams();
@@ -48,7 +47,6 @@ export function ChapterListPage() {
           })}
         </ul>
       </div>
-      <NewStory />
     </>
   );
 }

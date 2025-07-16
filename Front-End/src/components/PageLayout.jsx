@@ -10,14 +10,13 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { getUser } from "../../app";
 import { SearchBar } from "./SearchBar";
 
-const navItems = ["Landing Page", "Sign In", "Sign Up", "Profile Page"];
+const navItems = ["Landing Page", "Sign In", "Sign Up", "Profile Page", "Create a Story"];
 
 function PageLayout(props) {
   const navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [signedInUser, setSignedInUser] = useState('guest user')
-  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
   const updateSignedInUser = async () => {
@@ -38,6 +37,7 @@ function PageLayout(props) {
     "Sign Up": "/signup",
     "Profile Page": "/profile",
     "Landing Page": "/",
+    "Create a Story": "/newstory"
   };
 
   const drawer = (
@@ -104,6 +104,9 @@ function PageLayout(props) {
             </Button>
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/profile")}>
               Profile Page
+            </Button>
+            <Button sx={{ color: "#fff" }} onClick={() => navigate("/newstory")}>
+              Create a Story
             </Button>
           </Box>
         </Toolbar>

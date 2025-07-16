@@ -7,6 +7,7 @@ import SignUp from '../pages/SignUp';
 import ProfilePage from '../pages/ProfilePage';
 import LandingPage from '../pages/LandingPage';
 import { ChapterListPage } from '../pages/ChapterListPage';
+import { NewStory } from '../pages/NewStoryPage';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/chapters/:storyId" element={<ChapterListPage />} />
         <Route path="/chapter/:storyId/:chapterNumber" element={<ChapterPage />} />
+        <Route path="/newstory" element={<NewStory />} />
       </Routes>
     </PageLayout>
   );

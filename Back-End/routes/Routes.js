@@ -127,7 +127,7 @@ router.post('/new-story', async (req, res) => { // http://localhost:5000/new-sto
 
         if(!story_title) return res.status(400).json({ message: "'hey i read this mid story... blank???'" });
         if (!user_id) return res.status(400).json({ message: "user id required obviously how we gonna kow who wrote ts" });
-        // if (!username) return res.status(400).json({ message: "we get it. youre misterious" });
+        if (!username) return res.status(400).json({ message: "we get it. youre misterious" });
         if (!description) return res.status(400).json({ message: "do you even know what your story is about??" });
         if (!genres || genres.length === 0) return res.status(400).json({ message: "wow! a genderless story" });
         if (!status) status = "draft";
