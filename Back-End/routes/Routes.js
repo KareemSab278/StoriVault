@@ -212,21 +212,21 @@ router.delete('/stories/:id', async (req, res) => { // http://localhost:5000/sto
 
 router.delete('/stories/:id/chapters/:chapter_number', async (req, res) => { // http://localhost:5000/stories/686a7301c6e0afc1fd327c3e/chapters/1
     try {
-        const storyId = req.params.id;
+        const chapterId = req.params.id;
         const chapterNumber = parseInt(req.params.chapter_number);
 
-        const story = await Story.findById(storyId);
-        if (!story) return res.status(404).json({ message: 'Story not found' });
+        const deletechapter = await Story.findById(chapterId);
+        if (!deletechapter) return res.status(404).json({ message: 'Story not found' });
 
-        const chapterIndex = story.chapters.findIndex(c => c.chapter_number === chapterNumber);
+        const chapterIndex = deletechapter.chapters.findIndex(c => c.chapter_number === chapterNumber);
         if (chapterIndex === -1) return res.status(404).json({ message: 'Chapter not found' });
 
         // Remove chapter
-        story.chapters.splice(chapterIndex, 1);
-        story.updated_at = new Date();
+        deletechapter.chapters.splice(chapterIndex, 1);
+        deletechapter.updated_at = new Date();
 
-        const updatedStory = await story.save();
-        res.status(200).json({ message: 'Chapter deleted successfully', story: updatedStory });
+        const updatedStory = await deletechapter.save();
+        res.status(200).json({ message: 'Chapter deleted successfully', deletechapter: updatedStory });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
