@@ -208,6 +208,32 @@ router.delete('/stories/:id', async (req, res) => { // http://localhost:5000/sto
     }
 });
 
+//=============================
+
+router.delete('/stories/:id/chapters/:chapter_number', async (req, res) => { // http://localhost:5000/stories/686a7301c6e0afc1fd327c3e/chapters/1
+    try {
+        const storyId = req.params.id;
+        const chapterNumber = parseInt(req.params.chapter_number);
+
+        const story = await Story.findById(storyId);
+        if (!story) return res.status(404).json({ message: 'Story not found' });
+
+        const chapterIndex = story.chapters.findIndex(c => c.chapter_number === chapterNumber);
+        if (chapterIndex === -1) return res.status(404).json({ message: 'Chapter not found' });
+
+        // Remove chapter
+        story.chapters.splice(chapterIndex, 1);
+        story.updated_at = new Date();
+
+        const updatedStory = await story.save();
+        res.status(200).json({ message: 'Chapter deleted successfully', story: updatedStory });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+});
+        
+
 //====================================== PUT REQUEST =====================================//
 
 // edit-story/:id
@@ -273,6 +299,35 @@ router.put('/stories/:id/chapters/:chapter_number', async (req, res) => { // htt
 // {
 //   "title": "Updated Chapter Title",
 //   "content": "Updated chapter content goes here."
+// }
+
+//=============================
+
+router.put('/user/:id', async (req, res) => { // http://localhost:5000/user/685c5539c5cf817cd3d809b4
+    try {
+        const userId = req.params.id;
+        const { username, email, profile_picture, bio } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        if (username) user.username = username;
+        if (email) user.email = email;
+        if (profile_picture) user.profile_picture = profile_picture;
+        if (bio) user.bio = bio;
+
+        await user.save();
+        res.status(200).json({ message: 'User updated successfully', user });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// {
+//     "username": "Updated username",
+//     "email": "Updated email.",
+//     "profile_picture": "Updated profile picture.",
+//     "bio": "Updated bio."
 // }
 
 //====================================== END =====================================//
