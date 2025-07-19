@@ -1,16 +1,14 @@
-import './styles/App.css'
-import PageLayout from './components/PageLayout';
-import ChapterPage from '../pages/ChapterPage';
-import { Routes, Route } from 'react-router-dom';
-import SignIn from '../pages/SignIn';
-import SignUp from '../pages/SignUp';
-import ProfilePage from '../pages/ProfilePage';
-import LandingPage from '../pages/LandingPage';
-import { ChapterListPage } from '../pages/ChapterListPage';
-import { NewStory } from '../pages/NewStoryPage';
-
-
-
+import "./styles/App.css";
+import PageLayout from "./components/PageLayout";
+import ChapterPage from "../pages/ChapterPage";
+import { Routes, Route } from "react-router-dom";
+import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
+import ProfilePage from "../pages/ProfilePage";
+import LandingPage from "../pages/LandingPage";
+import { ChapterListPage } from "../pages/ChapterListPage";
+import { NewStory } from "../pages/NewStoryPage";
+import EditChapterPage from "../pages/EditChapterPage";
 
 function App() {
   return (
@@ -22,11 +20,18 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/chapters/:storyId" element={<ChapterListPage />} />
-        <Route path="/chapter/:storyId/:chapterNumber" element={<ChapterPage />} />
+        <Route
+          path="/chapter/:storyId/:chapterNumber"
+          element={<ChapterPage />}
+        />
+        <Route
+          path="/edit-chapter/:storyId/:chapterNumber"
+          element={<EditChapterPage />}
+        />
         <Route path="/newstory" element={<NewStory />} />
       </Routes>
     </PageLayout>
   );
 }
 
-export default App
+export default App;

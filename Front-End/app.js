@@ -1,65 +1,65 @@
-const url = 'http://localhost:5000/'
+import { forwardRef } from "react";
 
- const getChapter = async (id, chapter_number) => {
-    try {
-        const response = await fetch(`${url}stories/${id}/chapters/${chapter_number}`);
-        const data = await response.json();
-        console.log('getChapter function called from app.js')
-        return data;
+const url = "http://localhost:5000/";
+
+const getChapter = async (id, chapter_number) => {
+  try {
+    const response = await fetch(
+      `${url}stories/${id}/chapters/${chapter_number}`
+    );
+    const data = await response.json();
+    console.log("getChapter function called from app.js");
+    return data;
   } catch (error) {
-        console.error(error.message);
-    }
-}
+    console.error(error.message);
+  }
+};
 
 const getAllChapters = async (id) => {
   try {
     const response = await fetch(`${url}stories/${id}/chapters`);
     const data = await response.json();
-    console.log('getAllChapters function called from app.js')
+    console.log("getAllChapters function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
   }
 };
 
-
- const getStory = async (id) => {
-    try {
-        const response = await fetch(`${url}stories/${id}`);
-        const data = await response.json();
-        console.log('getStory function called from app.js')
-        return data;
+const getStory = async (id) => {
+  try {
+    const response = await fetch(`${url}stories/${id}`);
+    const data = await response.json();
+    console.log("getStory function called from app.js");
+    return data;
   } catch (error) {
-        console.error(error.message);
-    }
-}
-
+    console.error(error.message);
+  }
+};
 
 const getAllStories = async () => {
   try {
     const response = await fetch(`${url}stories`);
     const data = await response.json();
-    console.log('getAllStories function called from app.js')
+    console.log("getAllStories function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
   }
 };
 
-
-
 // need to add a chapter to a story //
- const addChapter = async (storyId, chapter) => {
+const addChapter = async (storyId, chapter) => {
   try {
     const response = await fetch(`${url}add-chapter/${storyId}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(chapter)
+      body: JSON.stringify(chapter),
     });
     const data = await response.json();
-    console.log('addChapter function called from app.js')
+    console.log("addChapter function called from app.js");
     return data;
   } catch (error) {
     console.log(error.message);
@@ -67,28 +67,27 @@ const getAllStories = async () => {
 };
 
 const createNewStory = async (story) => {
-  try{
+  try {
     const response = await fetch(`${url}new-story`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(story)
+      body: JSON.stringify(story),
     });
     const data = await response.json();
-    console.log('createNewStory function called from app.js')
+    console.log("createNewStory function called from app.js");
     return data;
-
   } catch (error) {
     console.log(error.message);
   }
-}
+};
 
 const getUser = async (id) => {
   try {
     const response = await fetch(`${url}user/${id}`);
     const data = await response.json();
-    console.log('getUser function called from app.js')
+    console.log("getUser function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -96,17 +95,65 @@ const getUser = async (id) => {
 };
 
 const getAllUsers = async () => {
-    try {
-      const response = await fetch(`${url}user`);
-      const data = await response.json();
-      console.log('getAllUsers function called from app.js')
-      return data;
-    } catch (error) {
-      console.error(error.message);
-    }
+  try {
+    const response = await fetch(`${url}user`);
+    const data = await response.json();
+    console.log("getAllUsers function called from app.js");
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
 };
 
+const editChapter = async (storyId, chapterNumber, chapter) => {
+  try {
+    const response = await fetch(
+      `${url}edit-chapter/${storyId}/${chapterNumber}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(chapter),
+      }
+    );
+    const data = await response.json();
+    console.log("editChapter function called from app.js");
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
+// "/stories/:id/chapters/:chapter_number
 
+const deleteChapter = async (storyId, chapterNumber) => {
+  try {
+    const response = await fetch(
+      `${url}delete-chapter/${storyId}/${chapterNumber}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete chapter");
+    }
+    const data = await response.json();
+    console.log("deleteChapter function called from app.js");
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
-export { getChapter, getStory, addChapter, getUser, getAllStories, getAllChapters, getAllUsers, createNewStory };
+export {
+  getChapter,
+  getStory,
+  addChapter,
+  getUser,
+  getAllStories,
+  getAllChapters,
+  getAllUsers,
+  createNewStory,
+  editChapter,
+};

@@ -38,114 +38,126 @@ export function NewStory() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-      style={{ textAlign: "center", marginTop: "2rem" }}
-    >
-      <div
-        style={{
-          maxWidth: 500,
-          margin: "4rem auto",
-          padding: 24,
-          border: "1px solid #ccc",
-          borderRadius: 8,
-        }}
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        style={{ textAlign: "center", marginTop: "2rem" }}
       >
-        <h2>Create New Story</h2>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: 16 }}>
-            <label>Title</label>
-            <input
-              name="story_title"
-              placeholder="Story Title"
-              onChange={handleChange}
-              required
-              style={{ width: "100%", padding: 8, marginTop: 4 }}
-            />
-          </div>
-          <div style={{ marginBottom: 16 }}>
-            <label>Description</label>
-            <textarea
-              name="description"
-              placeholder="Description"
-              onChange={handleChange}
-              required
-              style={{ width: "100%", padding: 8, marginTop: 4 }}
-            />
-          </div>
-          <div style={{ marginBottom: 16 }}>
-            <label>Cover Image URL</label>
-            <input
-              name="cover_image"
-              placeholder="Cover Image URL"
-              onChange={handleChange}
-              style={{ width: "100%", padding: 8, marginTop: 4 }}
-            />
-          </div>
-          <div style={{ marginBottom: 16 }}>
-  <label>Genres</label>
-  <div style = {{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: 4 }}>
-    {[
-      "Fantasy",
-      "Science Fiction",
-      "Mystery",
-      "Romance",
-      "Horror",
-      "Thriller",
-      "Historical",
-      "Young Adult",
-      "Non-Fiction",
-    ].map((genre) => (
-      <label key={genre} style={{ display: "flex", alignItems: "center" }}>
-        <input
-          type="checkbox"
-          name="genres"
-          value={genre}
-          checked={story.genres.includes(genre)}
-          onChange={(e) => {
-            const { value, checked } = e.target;
-            setStory((prev) => {
-              const newGenres = checked
-                ? [...prev.genres, value]
-                : prev.genres.filter((g) => g !== value);
-              return { ...prev, genres: newGenres };
-            });
+        <div
+          style={{
+            maxWidth: 500,
+            margin: "4rem auto",
+            padding: 24,
+            border: "1px solid #ccc",
+            borderRadius: 8,
           }}
-        />
-        <span style={{ marginLeft: 4 }}>{genre}</span>
-      </label>
-    ))}
-  </div>
-</div>
+        >
+          <h2>Create New Story</h2>
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: 16 }}>
+              <label>Title</label>
+              <input
+                name="story_title"
+                placeholder="Story Title"
+                onChange={handleChange}
+                required
+                style={{ width: "100%", padding: 8, marginTop: 4 }}
+              />
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label>Description</label>
+              <textarea
+                name="description"
+                placeholder="Description"
+                onChange={handleChange}
+                required
+                style={{ width: "100%", padding: 8, marginTop: 4 }}
+              />
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label>Cover Image URL</label>
+              <input
+                name="cover_image"
+                placeholder="Cover Image URL"
+                onChange={handleChange}
+                style={{ width: "100%", padding: 8, marginTop: 4 }}
+              />
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label>Genres</label>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  marginTop: 4,
+                }}
+              >
+                {[
+                  "Fantasy",
+                  "Science Fiction",
+                  "Mystery",
+                  "Romance",
+                  "Horror",
+                  "Thriller",
+                  "Historical",
+                  "Young Adult",
+                  "Non-Fiction",
+                ].map((genre) => (
+                  <label
+                    key={genre}
+                    style={{ display: "flex", alignItems: "center" }}
+                  >
+                    <input
+                      type="checkbox"
+                      name="genres"
+                      value={genre}
+                      checked={story.genres.includes(genre)}
+                      onChange={(e) => {
+                        const { value, checked } = e.target;
+                        setStory((prev) => {
+                          const newGenres = checked
+                            ? [...prev.genres, value]
+                            : prev.genres.filter((g) => g !== value);
+                          return { ...prev, genres: newGenres };
+                        });
+                      }}
+                    />
+                    <span style={{ marginLeft: 4 }}>{genre}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
 
-          <div style={{ marginBottom: 16 }}>
-            <label>Status</label>
-            <select
-              name="status"
-              onChange={handleChange}
-              style={{ width: "100%", padding: 8, marginTop: 4 }}
+            <div style={{ marginBottom: 16 }}>
+              <label>Status</label>
+              <select
+                name="status"
+                onChange={handleChange}
+                style={{ width: "100%", padding: 8, marginTop: 4 }}
+              >
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                padding: 10,
+                background: "#1976d2",
+                color: "#fff",
+                border: "none",
+                borderRadius: 4,
+              }}
             >
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
-            </select>
-          </div>
-          <button
-            type="submit"
-            style={{
-              width: "100%",
-              padding: 10,
-              background: "#1976d2",
-              color: "#fff",
-              border: "none",
-              borderRadius: 4,
-            }}
-          >
-            Submit Story
-          </button>
-        </form>
-      </div>
-    </motion.div>
+              Submit Story
+            </button>
+          </form>
+        </div>
+      </motion.div>
+    </>
   );
 }

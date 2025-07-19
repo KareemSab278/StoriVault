@@ -5,7 +5,6 @@ import { ChapterCard } from "../src/components/ChapterCard";
 import { motion } from "framer-motion";
 import { Navigate, useNavigate } from "react-router-dom";
 
-
 // In production, you would get these from props, context, or the router (e.g. React Router):
 // import { useParams } from 'react-router-dom';
 // const { storyId, chapter_number } = useParams();
@@ -39,21 +38,31 @@ function ChapterPage() {
   if (loading) return <div>Loading chapter...</div>;
   if (!chapter) return <div>Can't get chapter data</div>;
 
-  return(
+  return (
     <>
-    <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          style={{ textAlign: "center", marginTop: "2rem" }}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        style={{ textAlign: "center", marginTop: "2rem" }}
+      >
+        <ChapterCard chapter={chapter} />
+        <button
+          style={{ margin: "20px", background: "red" }}
+          onClick={() => navigate("/")}
         >
-    <ChapterCard chapter={chapter}/>
-    <button style={{margin : "20px", background: "red"}} onClick={() => navigate("/")}>delete chapter</button>
-    <button style={{margin : "20px", background: "yellow", color: "black"}}>edit chapter</button>
+          delete chapter
+        </button>
+        <button
+          style={{ margin: "20px", background: "yellow", color: "black" }}
+          onClick={() => navigate(`/edit-chapter/${storyId}/${chapterNumber}`)} // navigate to edit chapter page
+        >
+          edit chapter
+        </button>
 
-    {/* <button style={{margin : "20px", background: "green"}}>publish chapter</button> */} 
-    {/* idk if we are publishing chapters or stories yet. right now it is just stories */}
-    </motion.div>
+        {/* <button style={{margin : "20px", background: "green"}}>publish chapter</button> */}
+        {/* idk if we are publishing chapters or stories yet. right now it is just stories */}
+      </motion.div>
     </>
   );
 }
