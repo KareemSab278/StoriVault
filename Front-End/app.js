@@ -156,4 +156,5 @@ export {
   getAllUsers,
   createNewStory,
   editChapter,
+  deleteChapter,
 };

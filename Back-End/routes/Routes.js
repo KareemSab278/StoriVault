@@ -38,11 +38,10 @@ router.get("/stories/:id", async (req, res) => {
 });
 
 router.get("/stories", async (req, res) => {
-  // http://localhost:5000/stories
   try {
     const stories = await Story.find({});
     res.status(200).json(stories);
-  } catch {
+  } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
@@ -263,39 +262,36 @@ router.delete("/delete-story/:id", async (req, res) => {
 
 //=============================
 
-router.delete(
-  "/delete-chapter/:id/chapters/:chapter_number",
-  async (req, res) => {
-    // http://localhost:5000/stories/686a7301c6e0afc1fd327c3e/chapters/1
-    try {
-      const chapterId = req.params.id;
-      const chapterNumber = parseInt(req.params.chapter_number);
+router.delete("/delete-chapter/:id/:chapter_number", async (req, res) => {
+  // http://localhost:5000/stories/686a7301c6e0afc1fd327c3e/chapters/1
+  try {
+    const chapterId = req.params.id;
+    const chapterNumber = parseInt(req.params.chapter_number);
 
-      const deletechapter = await Story.findById(chapterId);
-      if (!deletechapter)
-        return res.status(404).json({ message: "Story not found" });
+    const deletechapter = await Story.findById(chapterId);
+    if (!deletechapter)
+      return res.status(404).json({ message: "Story not found" });
 
-      const chapterIndex = deletechapter.chapters.findIndex(
-        (c) => c.chapter_number === chapterNumber
-      );
-      if (chapterIndex === -1)
-        return res.status(404).json({ message: "Chapter not found" });
+    const chapterIndex = deletechapter.chapters.findIndex(
+      (c) => c.chapter_number === chapterNumber
+    );
+    if (chapterIndex === -1)
+      return res.status(404).json({ message: "Chapter not found" });
 
-      // Remove chapter
-      deletechapter.chapters.splice(chapterIndex, 1);
-      deletechapter.updated_at = new Date();
+    // Remove chapter
+    deletechapter.chapters.splice(chapterIndex, 1);
+    deletechapter.updated_at = new Date();
 
-      const updatedStory = await deletechapter.save();
-      res.status(200).json({
-        message: "Chapter deleted successfully",
-        deletechapter: updatedStory,
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: error.message });
-    }
+    const updatedStory = await deletechapter.save();
+    res.status(200).json({
+      message: "Chapter deleted successfully",
+      deletechapter: updatedStory,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
-);
+});
 
 //====================================== PUT REQUEST =====================================//
 

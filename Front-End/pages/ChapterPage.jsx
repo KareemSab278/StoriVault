@@ -4,6 +4,8 @@ import { getChapter } from "../app";
 import { ChapterCard } from "../src/components/ChapterCard";
 import { motion } from "framer-motion";
 import { Navigate, useNavigate } from "react-router-dom";
+import { deleteChapter } from "../app";
+// import deleteChapter from "../app"; // Assuming you have a deleteChapter function in app.js
 
 // In production, you would get these from props, context, or the router (e.g. React Router):
 // import { useParams } from 'react-router-dom';
@@ -18,6 +20,15 @@ function ChapterPage() {
   const [chapter, setChapter] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    const result = await deleteChapter(storyId, chapterNumber);
+    if (result) {
+      navigate(`/chapters/${storyId}`);
+    } else {
+      alert("Failed to delete chapter");
+    }
+  };
 
   useEffect(() => {
     async function fetchChapter() {
@@ -49,7 +60,7 @@ function ChapterPage() {
         <ChapterCard chapter={chapter} />
         <button
           style={{ margin: "20px", background: "red" }}
-          onClick={() => navigate("/")}
+          onClick={handleDelete}
         >
           delete chapter
         </button>

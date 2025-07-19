@@ -9,6 +9,7 @@ import LandingPage from "../pages/LandingPage";
 import { ChapterListPage } from "../pages/ChapterListPage";
 import { NewStory } from "../pages/NewStoryPage";
 import EditChapterPage from "../pages/EditChapterPage";
+import NewChapterPage from "../pages/NewChapterPage";
 
 function App() {
   return (
@@ -24,11 +25,20 @@ function App() {
           path="/chapter/:storyId/:chapterNumber"
           element={<ChapterPage />}
         />
+
         <Route
           path="/edit-chapter/:storyId/:chapterNumber"
           element={<EditChapterPage />}
         />
+
         <Route path="/newstory" element={<NewStory />} />
+
+        <Route
+          path="/delete-chapter/:storyId/:chapterNumber"
+          element={<ChapterPage />}
+        />
+
+        <Route path="new-chapter/:storyId" element={<NewChapterPage />} />
       </Routes>
     </PageLayout>
   );

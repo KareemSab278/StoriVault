@@ -47,6 +47,9 @@ export function ChapterListPage() {
           })}
         </ul>
       </div>
+      <button onClick={() => navigate(`/new-chapter/${storyId}`)}>
+        Add new chapter
+      </button>
     </>
   );
 }
