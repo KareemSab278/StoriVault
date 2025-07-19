@@ -39,7 +39,7 @@ export default function AddChapter() {
         ...chapter,
         updated_at: new Date(),
       });
-      setBottomTextStatus("Chapter added successfully!");
+      setBottomTextStatus("new chapter added successfully!");
       setChapter({
         title: "",
         content: "",
@@ -52,7 +52,6 @@ export default function AddChapter() {
       console.error(error);
     }
   };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
