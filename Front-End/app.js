@@ -1,6 +1,28 @@
 import { forwardRef } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "./src/store/authSlice";
+import { Routes, Route } from "react-router-dom";
 
 const url = "http://localhost:5000/";
+
+// const logIn = async (credentials) => {
+//   const dispatch = useDispatch();
+//   try {
+//     const response = await fetch(`${url}login`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(credentials),
+//     });
+//     const data = await response.json();
+//     if (data.user) {
+//       dispatch(setUser(data.user)); // update redux state here
+//     }
+//     console.log("signIn function called from app.js");
+//     return data;
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// };
 
 const getChapter = async (id, chapter_number) => {
   try {
@@ -148,6 +170,7 @@ const deleteChapter = async (storyId, chapterNumber) => {
 
 export {
   getChapter,
+  // logIn,
   getStory,
   addChapter,
   getUser,

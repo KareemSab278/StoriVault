@@ -10,35 +10,87 @@ import { ChapterListPage } from "../pages/ChapterListPage";
 import { NewStory } from "../pages/NewStoryPage";
 import EditChapterPage from "../pages/EditChapterPage";
 import NewChapterPage from "../pages/NewChapterPage";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setUser, clearUser } from "./store/authSlice";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
+  const url = "http://localhost:5000/";
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch(`${url}auth/status`, { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => dispatch(setUser(data.user)))
+      .catch(() => dispatch(clearUser()));
+  }, []);
+  // This effect checks the auth status of user when the app loads.
+
   return (
     <PageLayout>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/chapter" element={<ChapterPage />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/chapters/:storyId" element={<ChapterListPage />} />
+
+        <Route path="/" element={<LandingPage />} />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chapters/:storyId"
+          element={
+            <ProtectedRoute>
+              <ChapterListPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/chapter/:storyId/:chapterNumber"
-          element={<ChapterPage />}
+          element={
+            <ProtectedRoute>
+              <ChapterPage />
+            </ProtectedRoute>
+          }
         />
-
         <Route
           path="/edit-chapter/:storyId/:chapterNumber"
-          element={<EditChapterPage />}
+          element={
+            <ProtectedRoute>
+              <EditChapterPage />
+            </ProtectedRoute>
+          }
         />
-
-        <Route path="/newstory" element={<NewStory />} />
-
+        <Route
+          path="/newstory"
+          element={
+            <ProtectedRoute>
+              <NewStory />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/delete-chapter/:storyId/:chapterNumber"
-          element={<ChapterPage />}
+          element={
+            <ProtectedRoute>
+              <ChapterPage />
+            </ProtectedRoute>
+          }
         />
-
-        <Route path="new-chapter/:storyId" element={<NewChapterPage />} />
+        <Route
+          path="new-chapter/:storyId"
+          element={
+            <ProtectedRoute>
+              <NewChapterPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </PageLayout>
   );

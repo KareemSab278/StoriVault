@@ -1,7 +1,18 @@
 import {
-  AppBar, Box, CssBaseline, Divider, Drawer, 
-  IconButton, List, ListItem, ListItemButton,
-  ListItemText, Toolbar, Typography, Button } from "@mui/material";
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Button,
+} from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import { motion } from "framer-motion";
@@ -9,27 +20,41 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { getUser } from "../../app";
 import { SearchBar } from "./SearchBar";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../store/authSlice";
 
-const navItems = ["Landing Page", "Sign In", "Sign Up", "Profile Page", "Create a Story"];
+const navItems = [
+  "Landing Page",
+  "Sign In",
+  "Sign Up",
+  "Profile Page",
+  "Create a Story",
+];
 
 function PageLayout(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    dispatch(clearUser());
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/signin");
+  };
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [signedInUser, setSignedInUser] = useState('guest user')
+  const [signedInUser, setSignedInUser] = useState("guest user");
 
   useEffect(() => {
-  const updateSignedInUser = async () => {
-    const username = await getUser('685c5539c5cf817cd3d809b4') // the username is hardcoded so change it by getting the signed in user later (waiting for sign in to be implemented)
-    setSignedInUser(username.username)
-    }
+    const updateSignedInUser = async () => {
+      const username = await getUser("685c5539c5cf817cd3d809b4"); // the username is hardcoded so change it by getting the signed in user later (waiting for sign in to be implemented)
+      setSignedInUser(username.username);
+    };
     updateSignedInUser();
-  }, [])
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-  
 
   const navRoutes = {
     "Chapter Page": "/chapter",
@@ -37,13 +62,13 @@ function PageLayout(props) {
     "Sign Up": "/signup",
     "Profile Page": "/profile",
     "Landing Page": "/",
-    "Create a Story": "/newstory"
+    "Create a Story": "/newstory",
   };
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        {signedInUser ? signedInUser : 'Guest User'}
+        {signedInUser ? signedInUser : "Guest User"}
       </Typography>
       <Divider />
       <List>
@@ -61,8 +86,6 @@ function PageLayout(props) {
     </Box>
   );
 
-  
-
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -71,18 +94,23 @@ function PageLayout(props) {
       sx={{ display: "flex", bgcolor: "background.default", minHeight: "auto" }}
     >
       <CssBaseline />
-      <AppBar component="nav" sx={{ bgcolor: "#124ba1" }}> {/* navbar colour (blue) */}
+      <AppBar component="nav" sx={{ bgcolor: "#124ba1" }}>
+        {" "}
+        {/* navbar colour (blue) */}
         {/* {"custom text"} */}
         <Toolbar>
-          <IconButton color="inherit" aria-label="open drawer" edge="start" sx={{ mr: 2, display: { sm: "none" } }} onClick={handleDrawerToggle}>
-            
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            sx={{ mr: 2, display: { sm: "none" } }}
+            onClick={handleDrawerToggle}
+          >
             <MenuIcon />
-          
           </IconButton>
 
           {/* <SearchBar useCase="Search Stories" /> */}
           <SearchBar useCase="Search Stories" />
-
 
           <Typography
             variant="h6"
@@ -105,8 +133,14 @@ function PageLayout(props) {
             <Button sx={{ color: "#fff" }} onClick={() => navigate("/profile")}>
               Profile Page
             </Button>
-            <Button sx={{ color: "#fff" }} onClick={() => navigate("/newstory")}>
+            <Button
+              sx={{ color: "#fff" }}
+              onClick={() => navigate("/newstory")}
+            >
               Create a Story
+            </Button>
+            <Button sx={{ color: "#fff" }} onClick={handleSignOut}>
+              Sign Out
             </Button>
           </Box>
         </Toolbar>
