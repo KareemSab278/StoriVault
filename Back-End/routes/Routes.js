@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt"); // for use later when sending a new user but need to encrypt password! (refer to https://github.com/KareemSab278/ChatApp/blob/main/backend/app.js for example of bcrypt working)
 const { User, Story, Review } = require("../models/Models");
+const authMiddleware = require("../middleware/auth"); // impoet auth for use ltr
 
 //===================================== GET REQUEST =====================================//
 
@@ -396,6 +397,69 @@ router.put("/edit-user/:id", async (req, res) => {
 //     "profile_picture": "Updated profile picture.",
 //     "bio": "Updated bio."
 // }
+
+//====================================== USER AUTH =====================================//
+
+router.post("/login", async (req, res) => {
+  // /login bruv
+  try {
+    const { username, password } = req.body;
+    if (!username || !password)
+      return res.status(400).json({ message: "missing username or password" });
+
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid password" });
+
+    // generating a jwt token for this user
+    const token = jwt.sign(
+      { id: user._id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    ); // token expires in 1 hour
+
+    // setting the token in a cookie
+    res.cookie("token", token, {
+      httpOnly: true, // this makes the cookie inaccessible to js (helps prevent XSS attacks)
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict", // this helps prevent CSRF attacks???
+
+      // CSRF (Cross-Site Request Forgery): An attack where a malicious site tricks a user’s browser into sending unauthorized requests to your server.
+      // How sameSite: 'Strict' helps: It ensures the cookie is only sent for requests originating from your site (e.g., http://localhost:3000). Requests from other domains (e.g., a malicious site) won’t include the cookie, preventing CSRF.
+      // Why it’s safe here: Since the JWT is in an HttpOnly cookie (not accessible by JavaScript) and sameSite: 'Strict', it’s protected against both XSS (via HttpOnly) and CSRF (via sameSite).
+    });
+
+    res.status(200).json({ message: "Login successful", user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get("/auth/status", async (req, res) => {
+  // /auth/status
+  try {
+    const token = req.cookies.token; // get the token from the cookie
+    if (!token)
+      return res.status(401).json({ message: "Unauthorized - no token found" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decoded)
+      return res.status(401).json({ message: "Unauthorized - bad token" });
+
+    const user = await User.findById(decoded.id).select("-password"); // find by user id and dont need password
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res
+      .status(200)
+      .json({ message: "User authenticated", user, token: req.cookies.token });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ message: error.message }); // 401 or 400?
+  }
+});
 
 //====================================== END =====================================//
 

@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser"); // import diabetes-parser
 
 dotenv.config();
 connectDB();
@@ -9,6 +10,7 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(require("cookie-parser")()); // i need this for cookie parsing
 
 // route starts with / and uses the routes defined in routes.js
 app.use("/", require("./routes/Routes"));
