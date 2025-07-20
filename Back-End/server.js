@@ -3,14 +3,15 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser"); // import diabetes-parser
+const jwt = require("jsonwebtoken");
 
 dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Allow cookies for frontend
 app.use(express.json());
-app.use(require("cookie-parser")()); // i need this for cookie parsing
+app.use(cookieParser()); // i need this for cookie parsing
 
 // route starts with / and uses the routes defined in routes.js
 app.use("/", require("./routes/Routes"));
