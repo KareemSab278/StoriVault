@@ -27,7 +27,11 @@ const url = "http://localhost:5000/";
 const getChapter = async (id, chapter_number) => {
   try {
     const response = await fetch(
-      `${url}stories/${id}/chapters/${chapter_number}`
+      `${url}stories/${id}/chapters/${chapter_number}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
     );
     const data = await response.json();
     console.log("getChapter function called from app.js");
@@ -78,6 +82,8 @@ const addChapter = async (storyId, chapter) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // include the diabetes in req
+      // body: JSON.stringify({ username, chapter }),
       body: JSON.stringify(chapter),
     });
     const data = await response.json();
@@ -96,6 +102,7 @@ const createNewStory = async (story) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(story),
+      credentials: "include",
     });
     const data = await response.json();
     console.log("createNewStory function called from app.js");
@@ -137,6 +144,7 @@ const editChapter = async (storyId, chapterNumber, chapter) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(chapter),
+        credentials: "include",
       }
     );
     const data = await response.json();

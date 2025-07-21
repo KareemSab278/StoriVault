@@ -67,23 +67,29 @@ router.get("/stories/:id/chapters", async (req, res) => {
   }
 });
 
-router.get("/stories/:id/chapters/:chapter_number", async (req, res) => {
-  // http://localhost:5000/stories/685c5596c5cf817cd3d809ba/chapters/2
-  try {
-    const story = await Story.findById(req.params.id);
-    if (!story) return res.status(404).json({ message: "Story not found" });
-    const chapter = story.chapters.find(
-      (c) => c.chapter_number === parseInt(req.params.chapter_number)
-    );
+router.get(
+  "/stories/:id/chapters/:chapter_number",
+  authMiddleware,
+  async (req, res) => {
+    // added auth middle ware to protect this route
+    // http://localhost:5000/stories/685c5596c5cf817cd3d809ba/chapters/2
+    try {
+      const story = await Story.findById(req.params.id);
+      if (!story) return res.status(404).json({ message: "Story not found" });
+      const chapter = story.chapters.find(
+        (c) => c.chapter_number === parseInt(req.params.chapter_number)
+      );
 
-    if (!chapter) return res.status(404).json({ message: "Chapter not found" });
+      if (!chapter)
+        return res.status(404).json({ message: "Chapter not found" });
 
-    // if (chapter.content) console.log(chapter.content) // this logs the chapter content in the terminal
-    res.status(200).json(chapter);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+      // if (chapter.content) console.log(chapter.content) // this logs the chapter content in the terminal
+      res.status(200).json(chapter);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   }
-});
+);
 
 //===================================== POST REQUEST =====================================//
 
