@@ -4,7 +4,7 @@ import { getAllChapters } from "../app";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 
-export function ChapterListPage() {
+export function MyChapterListPage() {
   const { storyId } = useParams();
   const [chapters, setChapters] = useState([]);
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export function ChapterListPage() {
                 key={chapter._id}
                 style={style}
                 onClick={() =>
-                  navigate(`/chapter/${storyId}/${chapter.chapter_number}`)
+                  navigate(`/mychapter/${storyId}/${chapter.chapter_number}`)
                 }
                 onMouseOver={() => setHoveredIndex(index)}
                 onMouseOut={() => setHoveredIndex(null)}
@@ -54,9 +54,9 @@ export function ChapterListPage() {
       </div>
 
       {/* condition to check if username is same with chapter story username or not */}
-      {/* <button onClick={() => navigate(`/new-chapter/${storyId}`)}>
+      <button onClick={() => navigate(`/new-chapter/${storyId}`)}>
         Add new chapter
-      </button> */}
+      </button>
     </>
   );
 }

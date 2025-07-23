@@ -46,6 +46,7 @@ const getAllChapters = async (id) => {
     const response = await fetch(`${url}stories/${id}/chapters`);
     const data = await response.json();
     console.log("getAllChapters function called from app.js");
+    console.log(data);
     return data;
   } catch (error) {
     console.error(error.message);
@@ -68,6 +69,17 @@ const getAllStories = async () => {
     const response = await fetch(`${url}stories`);
     const data = await response.json();
     console.log("getAllStories function called from app.js");
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+const getStoriesByUser = async (username) => {
+  try {
+    const response = await fetch(`${url}stories/user/${username}`);
+    const data = await response.json();
+    console.log("getStoriesByUser function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -117,6 +129,17 @@ const getUser = async (id) => {
     const response = await fetch(`${url}user/${id}`);
     const data = await response.json();
     console.log("getUser function called from app.js");
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+const getIdByUsername = async (username) => {
+  try {
+    const response = await fetch(`${url}user/${username}`);
+    const data = await response.json();
+    console.log("getUserByUsername function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -188,4 +211,6 @@ export {
   createNewStory,
   editChapter,
   deleteChapter,
+  getIdByUsername,
+  getStoriesByUser,
 };

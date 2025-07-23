@@ -15,7 +15,7 @@ import { deleteChapter } from "../app";
 // const selectedChapter = 1; // REMOVE this in production
 // this mus also be changed in the text box component
 
-function ChapterPage() {
+function MyChapterPage() {
   const { storyId, chapterNumber } = useParams();
   const [chapter, setChapter] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -58,7 +58,7 @@ function ChapterPage() {
         style={{ textAlign: "center", marginTop: "2rem" }}
       >
         <ChapterCard chapter={chapter} />
-        {/* <button
+        <button
           style={{ margin: "20px", background: "red" }}
           onClick={handleDelete}
         >
@@ -69,7 +69,7 @@ function ChapterPage() {
           onClick={() => navigate(`/edit-chapter/${storyId}/${chapterNumber}`)} // navigate to edit chapter page
         >
           edit chapter
-        </button> */}
+        </button>
 
         {/* <button style={{margin : "20px", background: "green"}}>publish chapter</button> */}
         {/* idk if we are publishing chapters or stories yet. right now it is just stories */}
@@ -78,4 +78,4 @@ function ChapterPage() {
   );
 }
 
-export default ChapterPage;
+export default MyChapterPage;

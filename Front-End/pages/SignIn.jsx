@@ -23,8 +23,9 @@ function SignIn() {
       });
       const data = await response.json();
       if (data.user) {
-        dispatch(setUser(data.user));
+        dispatch(setUser({ username: data.user }));
         navigate("/");
+        console.log("Response data:", data);
       } else {
         alert("Invalid credentials");
       }

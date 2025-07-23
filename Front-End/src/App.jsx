@@ -14,6 +14,9 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "./store/authSlice";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { MyStoriesPage } from "../pages/MyStoriesPage";
+import { MyChapterListPage } from "../pages/MyChapterListPage";
+import MyChapterPage from "../pages/MyChapterPage";
 
 function App() {
   const url = "http://localhost:5000/";
@@ -25,7 +28,6 @@ function App() {
       .then((data) => dispatch(setUser(data.user)))
       .catch(() => dispatch(clearUser()));
   }, []);
-  // This effect checks the auth status of user when the app loads.
 
   return (
     <PageLayout>
@@ -52,6 +54,15 @@ function App() {
           }
         />
         <Route
+          path="/mystories"
+          element={
+            <ProtectedRoute>
+              <MyStoriesPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/chapter/:storyId/:chapterNumber"
           element={
             <ProtectedRoute>
@@ -59,6 +70,25 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/mychapter/:storyId/:chapterNumber"
+          element={
+            <ProtectedRoute>
+              <MyChapterPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/mychapters/:storyId"
+          element={
+            <ProtectedRoute>
+              <MyChapterListPage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/edit-chapter/:storyId/:chapterNumber"
           element={
@@ -80,6 +110,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ChapterPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/delete-chapter/:storyId/:chapterNumber"
+          element={
+            <ProtectedRoute>
+              <MyChapterPage />
             </ProtectedRoute>
           }
         />

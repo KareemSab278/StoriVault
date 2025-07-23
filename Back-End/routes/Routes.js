@@ -28,6 +28,33 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 
+// get stories by username
+router.get("/stories/user/:username", async (req, res) => {
+  // http://localhost:5000/stories/user/kareem
+  try {
+    const stories = await Story.find({ username: req.params.username });
+    if (!stories || stories.length === 0)
+      return res
+        .status(404)
+        .json({ message: "No stories found for this user" });
+    res.status(200).json(stories);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+router.get("/user/username/:username", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username }).select(
+      "-password"
+    );
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 router.get("/stories/:id", async (req, res) => {
   // http://localhost:5000/stories/685c5596c5cf817cd3d809ba
   try {
@@ -62,6 +89,20 @@ router.get("/stories/:id/chapters", async (req, res) => {
     }
 
     res.status(200).json(story.chapters);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+//getting stories written by user
+router.get("/stories/user/:username", async (req, res) => {
+  try {
+    const stories = await Story.find({ username: req.params.username });
+    if (!stories || stories.length === 0)
+      return res
+        .status(404)
+        .json({ message: "No stories found for this user" });
+    res.status(200).json(stories);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

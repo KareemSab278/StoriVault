@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getUser } from "../app";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ProfilePage() {
   const [user, setUser] = useState(null);
+  // const location = useLocation();
+  // const user = location.state?.signedInUser;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -69,6 +74,7 @@ function ProfilePage() {
             {new Date(user.created_at).toLocaleDateString()}
           </p>
         </div>
+        <button onClick={() => navigate(`/mystories`)}>My Stories</button>
       </motion.div>
     </>
   );
