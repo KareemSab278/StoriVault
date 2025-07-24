@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./src/store/authSlice";
 import { Routes, Route } from "react-router-dom";
 
-const url = "http://localhost:5000/";
+const url = "https://storivault-backend.onrender.com/";
 
 // const logIn = async (credentials) => {
 //   const dispatch = useDispatch();
