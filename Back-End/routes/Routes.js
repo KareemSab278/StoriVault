@@ -520,8 +520,12 @@ router.post("/login", async (req, res) => {
     // setting the token in a cookie
     res.cookie("token", token, {
       httpOnly: true, // this makes the cookie inaccessible to js (helps prevent XSS attacks)
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict", // this helps prevent CSRF attacks???
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: "Strict", // this helps prevent CSRF attacks???
+      // httpOnly: true,
+      secure: true,            
+      sameSite: "None",        
+      maxAge: 60 * 60 * 1000,  
 
       // CSRF (Cross-Site Request Forgery): An attack where a malicious site tricks a user’s browser into sending unauthorized requests to your server.
       // How sameSite: 'Strict' helps: It ensures the cookie is only sent for requests originating from your site (e.g., http://localhost:3000). Requests from other domains (e.g., a malicious site) won’t include the cookie, preventing CSRF.

@@ -19,7 +19,8 @@ import { MyChapterListPage } from "../pages/MyChapterListPage";
 import MyChapterPage from "../pages/MyChapterPage";
 
 function App() {
-  const url = "http://localhost:5000/";
+  // const url = "http://localhost:5000/";
+  const url = "https://storivault-backend.onrender.com/";
   const dispatch = useDispatch();
 
   useEffect(() => {
