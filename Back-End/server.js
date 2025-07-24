@@ -9,7 +9,11 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Allow cookies for frontend
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser()); // i need this for cookie parsing
 
