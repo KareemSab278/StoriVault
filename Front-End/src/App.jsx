@@ -106,14 +106,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="/delete-chapter/:storyId/:chapterNumber"
           element={
             <ProtectedRoute>
               <ChapterPage />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route
           path="/delete-chapter/:storyId/:chapterNumber"

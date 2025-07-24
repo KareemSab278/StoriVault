@@ -72,6 +72,11 @@ function PageLayout(props) {
           "Create a Story": "/newstory",
         };
 
+  const upperNavRoutes = {};
+  for (let key in navRoutes) {
+    upperNavRoutes[key.toUpperCase()] = navRoutes[key];
+  }
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -79,7 +84,7 @@ function PageLayout(props) {
       </Typography>
       <Divider />
       <List>
-        {Object.entries(navRoutes).map(([label, path]) => (
+        {Object.entries(upperNavRoutes).map(([label, path]) => (
           <ListItem key={label} disablePadding>
             <ListItemButton
               sx={{ textAlign: "center" }}
@@ -90,8 +95,17 @@ function PageLayout(props) {
           </ListItem>
         ))}
       </List>
-      <Button onClick={handleSignOut} sx={{ color: "#fff" }}>
-        Sign Out
+      <Button
+        onClick={handleSignOut}
+        sx={{
+          color: "#fff",
+          textAlign: "center",
+          fontSize: "1.05rem",
+          fontWeight: 450,
+          marginTop: "-0.2em",
+        }}
+      >
+        SIGN OUT
       </Button>
     </Box>
   );

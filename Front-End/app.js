@@ -186,6 +186,7 @@ const deleteChapter = async (storyId, chapterNumber) => {
       `${url}delete-chapter/${storyId}/${chapterNumber}`,
       {
         method: "DELETE",
+        credentials: "include",
       }
     );
     if (!response.ok) {
