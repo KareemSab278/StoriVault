@@ -3,29 +3,25 @@ import { getUser } from "../app";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 function ProfilePage() {
-  const [user, setUser] = useState(null);
   // const location = useLocation();
   // const user = location.state?.signedInUser;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [signedInUser, setSignedInUser] = useState("Guest User");
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const data = await getUser("685c5539c5cf817cd3d809b4");
-        setUser(data);
-      } catch (err) {
-        setError("Failed to load user info.", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+    if (user?.username) {
+      setSignedInUser(user.username);
+      setLoading(false);
+    } else {
+      setSignedInUser("Guest User");
+    }
+  }, [user]);
 
   if (loading) return <div>Loading profile...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
