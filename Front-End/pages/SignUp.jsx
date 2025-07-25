@@ -39,9 +39,10 @@ function SignUp() {
         body: JSON.stringify(payload),
       });
       const data = await response.json();
-      if (data.user && response.ok) {
-        dispatch(setUser(data.user));
-        navigate("/");
+      if (data.user) {
+              dispatch(setUser(data.user));
+              navigate("/");
+              console.log("Response data:", data);
       } else {
         alert("Sign up failed");
       }
