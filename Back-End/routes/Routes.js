@@ -43,7 +43,7 @@ router.get("/stories/user/:username", async (req, res) => {
   }
 });
 
-router.get("/user/username/:username", async (req, res) => {
+router.get("/user/username/:username", authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username }).select(
       "-password"
@@ -523,9 +523,9 @@ router.post("/login", async (req, res) => {
       // secure: process.env.NODE_ENV === "production",
       // sameSite: "Strict", // this helps prevent CSRF attacks???
       // httpOnly: true,
-      secure: true,            
-      sameSite: "None",        
-      maxAge: 60 * 60 * 1000,  
+      secure: true,
+      sameSite: "None",
+      maxAge: 60 * 60 * 1000,
 
       // CSRF (Cross-Site Request Forgery): An attack where a malicious site tricks a user’s browser into sending unauthorized requests to your server.
       // How sameSite: 'Strict' helps: It ensures the cookie is only sent for requests originating from your site (e.g., http://localhost:3000). Requests from other domains (e.g., a malicious site) won’t include the cookie, preventing CSRF.

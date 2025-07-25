@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { getUser } from "../app";
+import React, { use, useEffect, useState } from "react";
+import { getIdByUsername } from "../app";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -15,12 +15,17 @@ function ProfilePage() {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    if (user?.username) {
-      setSignedInUser(user.username);
+    const fetchUserId = async () => {
+      if (user?.username) {
+        const id = await getIdByUsername(user.username);
+        setSignedInUser(id);
+      } else {
+        setSignedInUser("Guest User");
+      }
       setLoading(false);
-    } else {
-      setSignedInUser("Guest User");
-    }
+    };
+
+    fetchUserId();
   }, [user]);
 
   if (loading) return <div>Loading profile...</div>;

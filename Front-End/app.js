@@ -126,7 +126,10 @@ const createNewStory = async (story) => {
 
 const getUser = async (id) => {
   try {
-    const response = await fetch(`${url}user/${id}`);
+    const response = await fetch(`${url}user/${id}`, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = await response.json();
     console.log("getUser function called from app.js");
     return data;
@@ -137,7 +140,10 @@ const getUser = async (id) => {
 
 const getIdByUsername = async (username) => {
   try {
-    const response = await fetch(`${url}user/${username}`);
+    const response = await fetch(`${url}user/${username}`, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = await response.json();
     console.log("getUserByUsername function called from app.js");
     return data;
