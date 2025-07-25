@@ -48,6 +48,7 @@ function SignIn() {
           padding: 24,
           border: "1px solid #ccc",
           borderRadius: 8,
+          marginBottom: "2rem",
         }}
       >
         <h2>Sign In</h2>
@@ -89,6 +90,8 @@ function SignIn() {
           </button>
         </form>
       </div>
+      <button onClick={()=>{navigate("/signup")}}>Don't have an account?</button>
+
     </motion.div>
   );
 }
