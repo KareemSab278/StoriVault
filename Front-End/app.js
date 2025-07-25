@@ -140,10 +140,13 @@ const getUser = async (id) => {
 
 const getIdByUsername = async (username) => {
   try {
-    const response = await fetch(`${url}user/${username}`, {
+    const response = await fetch(`${url}user/username/${username}`, {
       method: "GET",
       credentials: "include",
     });
+
+    if (!response.ok) throw new Error("User fetch failed");
+
     const data = await response.json();
     console.log("getUserByUsername function called from app.js");
     return data;
