@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from "react";
+import { Reviews } from "./Reviews";
 
 export function StoryCard({ story, onClick }) {
   const [over, setOver] = useState(false); // set the state of the mouse hover
@@ -50,6 +51,7 @@ export function StoryCard({ story, onClick }) {
       <p>
         <strong>Chapters:</strong> {story.chapters.length}
       </p>
+      <Reviews storyId={story._id} />
     </div>
   );
 }

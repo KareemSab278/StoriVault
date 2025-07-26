@@ -4,6 +4,7 @@ import { setUser } from "./src/store/authSlice";
 import { Routes, Route } from "react-router-dom";
 
 const url = "https://storivault-backend.onrender.com/";
+// const url = "http://localhost:5000/"; // Uncomment for local development
 
 // const logIn = async (credentials) => {
 //   const dispatch = useDispatch();
@@ -58,6 +59,20 @@ const getStory = async (id) => {
     const response = await fetch(`${url}stories/${id}`);
     const data = await response.json();
     console.log("getStory function called from app.js");
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+const getReviews = async (storyId) => {
+  try {
+    const response = await fetch(`${url}reviews/${storyId}`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const data = await response.json();
+    console.log("getReviews function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -218,6 +233,7 @@ export {
   getAllStories,
   getAllChapters,
   getAllUsers,
+  getReviews,
   createNewStory,
   editChapter,
   deleteChapter,

@@ -132,6 +132,21 @@ router.get(
   }
 );
 
+router.get("/reviews/:storyId", async (req, res) => {
+  // http://localhost:5000/ratings/685c5596c5cf817cd3d809ba
+  try {
+    const reviews = await Review.find({ story_id: req.params.storyId });
+    if (!reviews || reviews.length === 0)
+      return res
+        .status(404)
+        .json({ message: "No reviews found for this story" });
+    res.status(200).json(reviews);
+    return reviews;
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 //===================================== POST REQUEST =====================================//
 
 router.post("/post", async (req, res) => {
