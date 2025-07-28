@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Reviews } from "./Reviews";
+import {ReviewsModal} from "./ReviewsModal";
 
 export function StoryCard({ story, onClick }) {
   const [over, setOver] = useState(false); // set the state of the mouse hover
@@ -20,7 +21,7 @@ export function StoryCard({ story, onClick }) {
 
   return (
     <div
-      onClick={onClick}
+      onClick={onClick} // onclick conflict with ReviewsModal 
       style={cardStyle} // this
       onMouseOver={() => setOver(true)} // is
       onMouseOut={() => setOver(false)} // the hover effect
@@ -52,6 +53,7 @@ export function StoryCard({ story, onClick }) {
         <strong>Chapters:</strong> {story.chapters.length}
       </p>
       <Reviews storyId={story._id} />
+      <ReviewsModal storyId = {story._id}/>
     </div>
   );
 }
