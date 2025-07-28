@@ -25,11 +25,17 @@ export function ReviewsModal({ storyId }) {
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState(["No Reviews Yet"]);
   // const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleClose = () => setOpen(false);
 
   const handleOpen = (e) => {
     e.stopPropagation();
+    // so i have no idea what this does but apparently it stops the parent div from noticing anything with this. so if i click on the button then the component the button is in does nothing
     setOpen(true);
+  };
+
+  const handleClose = (e) => {
+    e.stopPropagation();
+    setOpen(false);
   };
 
   useEffect(() => {

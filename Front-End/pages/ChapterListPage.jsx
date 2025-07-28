@@ -20,7 +20,7 @@ export function ChapterListPage() {
     }
     fetchChapters();
   }, [storyId]);
-  console.log(username);
+  // console.log(username);
 
   return (
     <>

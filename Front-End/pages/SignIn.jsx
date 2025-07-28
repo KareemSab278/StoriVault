@@ -26,7 +26,7 @@ function SignIn() {
         dispatch(setUser({ username: data.user }));
         navigate("/");
         // gotta change this later - users cant keep going back to the main page everytime. will be frustrating.
-        console.log("Response data:", data);
+        // console.log("Response data:", data);
       } else {
         alert("Invalid credentials");
       }
@@ -91,8 +91,13 @@ function SignIn() {
           </button>
         </form>
       </div>
-      <button onClick={()=>{navigate("/signup")}}>Don't have an account?</button>
-
+      <button
+        onClick={() => {
+          navigate("/signup");
+        }}
+      >
+        Don't have an account?
+      </button>
     </motion.div>
   );
 }

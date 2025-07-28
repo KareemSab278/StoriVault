@@ -189,7 +189,7 @@ router.post("/new-user", async (req, res) => {
       .status(201)
       .json({ message: "user created successfully", user: savedUser });
   } catch (e) {
-    console.log(e, e.message); // it dindt work - you suck
+    console.error(e, e.message); // it dindt work - you suck
     res.status(500).json({ message: e.message });
   }
 });
@@ -239,7 +239,7 @@ router.post("/new-story", authMiddleware, async (req, res) => {
       .status(201)
       .json({ message: "story created successfully", story: savedStory });
   } catch (e) {
-    console.log(e, e.message);
+    console.error(e, e.message);
     res.status(500).json({ message: e.message });
   }
 });
@@ -278,7 +278,7 @@ router.post("/add-chapter/:storyId", authMiddleware, async (req, res) => {
 
     res.status(200).json(updatedStory);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(500).json({ message: "failed to add chapter" });
   }
 });

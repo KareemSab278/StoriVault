@@ -38,7 +38,7 @@ const getChapter = async (id, chapter_number) => {
       }
     );
     const data = await response.json();
-    console.log("getChapter function called from app.js");
+    //console.log("getChapter function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -49,8 +49,8 @@ const getAllChapters = async (id) => {
   try {
     const response = await fetch(`${url}stories/${id}/chapters`);
     const data = await response.json();
-    console.log("getAllChapters function called from app.js");
-    console.log(data);
+    //console.log("getAllChapters function called from app.js");
+    // console.log(data);
     return data;
   } catch (error) {
     console.error(error.message);
@@ -61,7 +61,7 @@ const getStory = async (id) => {
   try {
     const response = await fetch(`${url}stories/${id}`);
     const data = await response.json();
-    console.log("getStory function called from app.js");
+    //console.log("getStory function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -75,7 +75,7 @@ const getReviews = async (storyId) => {
       credentials: "include",
     });
     const data = await response.json();
-    console.log("getReviews function called from app.js");
+    //console.log("getReviews function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -86,7 +86,7 @@ const getAllStories = async () => {
   try {
     const response = await fetch(`${url}stories`);
     const data = await response.json();
-    console.log("getAllStories function called from app.js");
+    //console.log("getAllStories function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -97,7 +97,7 @@ const getStoriesByUser = async (username) => {
   try {
     const response = await fetch(`${url}stories/user/${username}`);
     const data = await response.json();
-    console.log("getStoriesByUser function called from app.js");
+    //console.log("getStoriesByUser function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -117,10 +117,10 @@ const addChapter = async (storyId, chapter) => {
       body: JSON.stringify(chapter),
     });
     const data = await response.json();
-    console.log("addChapter function called from app.js");
+    //console.log("addChapter function called from app.js");
     return data;
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 };
 
@@ -135,10 +135,10 @@ const createNewStory = async (story) => {
       credentials: "include",
     });
     const data = await response.json();
-    console.log("createNewStory function called from app.js");
+    //console.log("createNewStory function called from app.js");
     return data;
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 };
 
@@ -149,7 +149,7 @@ const getUser = async (id) => {
       credentials: "include",
     });
     const data = await response.json();
-    console.log("getUser function called from app.js");
+    //console.log("getUser function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -166,7 +166,7 @@ const getIdByUsername = async (username) => {
     if (!response.ok) throw new Error("User fetch failed");
 
     const data = await response.json();
-    console.log("getUserByUsername function called from app.js");
+    // console.log("getUserByUsername function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -177,7 +177,7 @@ const getAllUsers = async () => {
   try {
     const response = await fetch(`${url}user`);
     const data = await response.json();
-    console.log("getAllUsers function called from app.js");
+    //console.log("getAllUsers function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -198,7 +198,7 @@ const editChapter = async (storyId, chapterNumber, chapter) => {
       }
     );
     const data = await response.json();
-    console.log("editChapter function called from app.js");
+    //console.log("editChapter function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -220,7 +220,7 @@ const deleteChapter = async (storyId, chapterNumber) => {
       throw new Error("Failed to delete chapter");
     }
     const data = await response.json();
-    console.log("deleteChapter function called from app.js");
+    //console.log("deleteChapter function called from app.js");
     return data;
   } catch (error) {
     console.error(error.message);
@@ -229,7 +229,6 @@ const deleteChapter = async (storyId, chapterNumber) => {
 
 export {
   getChapter,
-  // logIn,
   getStory,
   addChapter,
   getUser,

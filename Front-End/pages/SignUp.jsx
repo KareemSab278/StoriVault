@@ -40,9 +40,9 @@ function SignUp() {
       });
       const data = await response.json();
       if (data.user) {
-              dispatch(setUser(data.user));
-              navigate("/");
-              console.log("Response data:", data);
+        dispatch(setUser(data.user));
+        navigate("/");
+        // console.log("Response data:", data);
       } else {
         alert("Sign up failed");
       }
@@ -141,7 +141,13 @@ function SignUp() {
             )}
           </form>
         </div>
-        <button onClick={()=>{navigate("/signin")}}>Already have an account?</button>
+        <button
+          onClick={() => {
+            navigate("/signin");
+          }}
+        >
+          Already have an account?
+        </button>
       </motion.div>
     </>
   );

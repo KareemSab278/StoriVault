@@ -14,7 +14,6 @@ import { color } from "framer-motion";
 export const SearchBar = ({ useCase }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  
 
   const debounceSearchQuery = useDebounce(searchQuery, 700);
 
@@ -40,7 +39,7 @@ export const SearchBar = ({ useCase }) => {
       );
 
       setSearchResults(filtered);
-      console.log('fetchData function in SearchBar.jsx called')
+      // console.log('fetchData function in SearchBar.jsx called')
     };
 
     fetchData();
@@ -62,7 +61,6 @@ export const SearchBar = ({ useCase }) => {
     <Search>
       {searchQuery && searchResults.length > 0 && (
         <Box
-          
           sx={{
             position: "absolute",
             top: "56px",
@@ -73,9 +71,7 @@ export const SearchBar = ({ useCase }) => {
             zIndex: 1300,
             maxHeight: 200,
             overflowY: "auto",
-            
           }}
-          
         >
           {searchResults.map((item) => (
             <Button

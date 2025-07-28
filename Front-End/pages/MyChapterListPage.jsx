@@ -20,7 +20,7 @@ export function MyChapterListPage() {
     }
     fetchChapters();
   }, [storyId]);
-  console.log(username);
+  // console.log(username);
 
   return (
     <>
