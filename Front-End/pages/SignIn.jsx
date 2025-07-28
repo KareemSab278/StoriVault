@@ -25,6 +25,7 @@ function SignIn() {
       if (data.user) {
         dispatch(setUser({ username: data.user }));
         navigate("/");
+        // gotta change this later - users cant keep going back to the main page everytime. will be frustrating.
         console.log("Response data:", data);
       } else {
         alert("Invalid credentials");

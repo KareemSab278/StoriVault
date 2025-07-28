@@ -30,7 +30,7 @@ export function Reviews({ storyId }) {
     const fetchReviews = async () => {
       try {
         const reviews = await getReviews(storyId);
-        console.log("Fetched reviews:", reviews);
+        // console.log("Fetched reviews:", reviews);
         if (reviews?.length) {
           const avg =
             reviews.reduce((acc, curr) => acc + curr.stars, 0) / reviews.length;
