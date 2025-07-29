@@ -15,7 +15,7 @@ export function StoryCard({ story, onClick }) {
     transform: "scale(1)",
     transition: "transform 0.2s ease",
   };
-  cardStyle.transform = over ? "scale(1.1)" : "scale(1)"; // condition for hover or nah
+  cardStyle.transform = over ? "scale(1.1)" : "scale(1)";
 
   if (!story) return <div>No story data</div>;
 

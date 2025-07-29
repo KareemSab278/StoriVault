@@ -36,7 +36,16 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
 
-        <Route path="/" element={<LandingPage />} />
+        {/* get the user and then check if there is a user. create a ternary op to decide if route is protected ir not depending on user */}
+        {/* if no user then protect and force sign in else show landing page */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <LandingPage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/profile"

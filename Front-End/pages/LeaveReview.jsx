@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { createNewStory } from "../app";
 
-export function NewStory() {
-  const [story, setStory] = useState({
+export function LeaveReview() {
+  const [review, setReview] = useState({
     story_title: "",
     description: "",
     cover_image: null,
@@ -18,21 +18,19 @@ export function NewStory() {
       const selected = [...options]
         .filter((option) => option.selected)
         .map((option) => option.value);
-      setStory((prev) => ({ ...prev, [name]: selected }));
+      setReview((prev) => ({ ...prev, [name]: selected }));
     } else {
-      setStory((prev) => ({ ...prev, [name]: value }));
+      setReview((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
-      ...story,
-      user_id: "685c55f7c5cf817cd3d809bd", // idk why it is overwritten lol but im afraid to remove this rn...
-      username: "janedoe",
-      created_at: new Date(),
-      updated_at: new Date(),
-      chapters: [],
+      ...review,
+      user_id: "",
+      username: "",
+      comment: "",
     };
     await createNewStory(payload);
   };
@@ -54,13 +52,13 @@ export function NewStory() {
             borderRadius: 8,
           }}
         >
-          <h2>Create New Story</h2>
+          <h2>Leave A Review</h2>
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: 16 }}>
-              <label>Title</label>
+              <label>Rating</label>
               <input
-                name="story_title"
-                placeholder="Story Title"
+                name="Rating"
+                placeholder="1"
                 onChange={handleChange}
                 required
                 style={{ width: "100%", padding: 8, marginTop: 4 }}
