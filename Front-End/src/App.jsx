@@ -17,10 +17,11 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { MyStoriesPage } from "../pages/MyStoriesPage";
 import { MyChapterListPage } from "../pages/MyChapterListPage";
 import MyChapterPage from "../pages/MyChapterPage";
+import { LeaveReviewPage } from "../pages/LeaveReviewPage";
 
 function App() {
   // const url = "http://localhost:5000/";
-  const url = "https://storivault-backend.onrender.com/";
+  const url = "https://storivault-backend.onrender.com/"; // this is not secure - i must hide this backend url later!
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,6 +44,15 @@ function App() {
           element={
             <ProtectedRoute>
               <LandingPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/leave-review/:storyId"
+          element={
+            <ProtectedRoute>
+              <LeaveReviewPage />
             </ProtectedRoute>
           }
         />

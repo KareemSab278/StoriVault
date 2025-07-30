@@ -51,37 +51,40 @@ export function ReviewsModal({ storyId }) {
   }, [storyId]);
 
   return (
-    <div>
-      {reviews.length === 0 ? (
-        <Button onClick={handleOpen}> No Reviews</Button>
-      ) : (
-        <Button onClick={handleOpen}> See Reviews</Button>
-      )}
-      {/* got an onclick conflict here where clicking on story card causes a problem */}
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            Reviews
-          </Typography>
-          {reviews.length === 0 ? (
-            <Typography>No Reviews Yet</Typography>
-          ) : (
-            reviews.map((r, idx) => (
-              <Box key={idx} sx={{ mb: 2 }}>
-                <Typography sx={{ fontWeight: "bold" }}>
-                  {r.username}
-                </Typography>
-                <Typography>{r.comment}</Typography>
-              </Box>
-            ))
-          )}
-        </Box>
-      </Modal>
-    </div>
+    <>
+      <div>
+        {reviews.length === 0 ? (
+          <Button onClick={handleOpen}> No Reviews</Button>
+        ) : (
+          <Button onClick={handleOpen}> See Reviews</Button>
+        )}
+        {/* got an onclick conflict here where clicking on story card causes a problem */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography variant="h6" component="h2">
+              Reviews
+            </Typography>
+            {reviews.length === 0 ? (
+              <Typography>No Reviews Yet</Typography>
+            ) : (
+              reviews.map((r, idx) => (
+                <Box key={idx} sx={{ mb: 2 }}>
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    {r.username}
+                  </Typography>
+                  <Typography>{r.comment}</Typography>
+                </Box>
+              ))
+            )}
+            {/* this need to navigate to the leave Review Page */}
+          </Box>
+        </Modal>
+      </div>
+    </>
   );
 }

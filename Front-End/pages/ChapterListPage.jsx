@@ -13,6 +13,10 @@ export function ChapterListPage() {
   const username = user?.username;
   const id = user?.id;
 
+  const leaveReviewClicked = () => {
+    navigate(`/leave-review/${storyId}`);
+  };
+
   useEffect(() => {
     async function fetchChapters() {
       const data = await getAllChapters(storyId);
@@ -51,6 +55,7 @@ export function ChapterListPage() {
             );
           })}
         </ul>
+        <button onClick={() => leaveReviewClicked()}>leave a review</button>
       </div>
 
       {/* condition to check if username is same with chapter story username or not */}

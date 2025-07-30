@@ -283,6 +283,36 @@ router.post("/add-chapter/:storyId", authMiddleware, async (req, res) => {
   }
 });
 
+router.post("/new-review/:storyId", authMiddleware, async (req, res) => {
+  try {
+    const { username, stars, comment, created_at } = req.body;
+    const existing = await Review.findOne({
+      story_id: req.params.storyId,
+      user_id: req.user._id,
+    });
+    if (existing) {
+      return res
+        .status(409)
+        .json({ error: "You’ve already submitted a review for this story." });
+    }
+    const newReview = new Review({
+      user_id: req.user._id,
+      story_id: req.params.storyId,
+      username,
+      stars,
+      comment,
+      created_at,
+    });
+    const savedReview = await newReview.save();
+    res
+      .status(201)
+      .json({ message: "Review created successfully", review: savedReview });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Failed to create review" });
+  }
+});
+
 //===================================== DELETE REQUEST =====================================//
 
 router.delete("/user/:id", authMiddleware, async (req, res) => {

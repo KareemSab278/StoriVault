@@ -142,6 +142,30 @@ const createNewStory = async (story) => {
   }
 };
 
+const createNewReview = async (storyId, review) => {
+  try {
+    const response = await fetch(`${url}new-review/${storyId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(review),
+      credentials: "include",
+    });
+
+    if (response.status === 409) {
+      return { error: "duplicate" };
+    }
+    if (!response.ok) {
+      throw new Error("Failed to create review");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+    return { error: error.message };
+  }
+};
+
 const getUser = async (id) => {
   try {
     const response = await fetch(`${url}user/${id}`, {
@@ -237,6 +261,7 @@ export {
   getAllUsers,
   getReviews,
   createNewStory,
+  createNewReview,
   editChapter,
   deleteChapter,
   getIdByUsername,
