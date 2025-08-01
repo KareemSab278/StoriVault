@@ -7,8 +7,7 @@ const jwt = require("jsonwebtoken");
 
 //===================================== GET REQUEST =====================================//
 
-router.get("/user", async (req, res) => {
-  // http://localhost:5000/user
+router.get("/user", authMiddleware, async (req, res) => {
   try {
     const users = await User.find({}).select("-password");
     res.status(200).json(users);
@@ -17,8 +16,7 @@ router.get("/user", async (req, res) => {
   }
 });
 
-router.get("/user/:id", async (req, res) => {
-  // http://localhost:5000/user/kareem
+router.get("/user/:id", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -29,8 +27,7 @@ router.get("/user/:id", async (req, res) => {
 });
 
 // get stories by username
-router.get("/stories/user/:username", async (req, res) => {
-  // http://localhost:5000/stories/user/kareem
+router.get("/stories/user/:username", authMiddleware, async (req, res) => {
   try {
     const stories = await Story.find({ username: req.params.username });
     if (!stories || stories.length === 0)
@@ -55,8 +52,7 @@ router.get("/user/username/:username", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/stories/:id", async (req, res) => {
-  // http://localhost:5000/stories/685c5596c5cf817cd3d809ba
+router.get("/stories/:id", authMiddleware, async (req, res) => {
   try {
     const story = await Story.findById(req.params.id);
     if (!story) return res.status(404).json({ message: "Story not found" });
@@ -75,34 +71,16 @@ router.get("/stories", async (req, res) => {
   }
 });
 
-router.get("/stories/:id/chapters", async (req, res) => {
-  // http://localhost:5000/stories/685c5596c5cf817cd3d809ba/chapters
+router.get("/stories/:id/chapters", authMiddleware, async (req, res) => {
   try {
     const story = await Story.findById(req.params.id);
     if (!story) return res.status(404).json({ message: "Story not found" });
 
     if (story.chapters && story.chapters.length > 0) {
-      // this function prints all of the chapters' content in the console (run the url and check terminal in vscode)
-      for (let i = 0; i < story.chapters.length; i++) {
-        // console.log(story.chapters[i].content);
-      }
+      for (let i = 0; i < story.chapters.length; i++) {}
     }
 
     res.status(200).json(story.chapters);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-//getting stories written by user
-router.get("/stories/user/:username", async (req, res) => {
-  try {
-    const stories = await Story.find({ username: req.params.username });
-    if (!stories || stories.length === 0)
-      return res
-        .status(404)
-        .json({ message: "No stories found for this user" });
-    res.status(200).json(stories);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -112,8 +90,6 @@ router.get(
   "/stories/:id/chapters/:chapter_number",
   authMiddleware,
   async (req, res) => {
-    // added auth middle ware to protect this route
-    // http://localhost:5000/stories/685c5596c5cf817cd3d809ba/chapters/2
     try {
       const story = await Story.findById(req.params.id);
       if (!story) return res.status(404).json({ message: "Story not found" });
@@ -124,7 +100,6 @@ router.get(
       if (!chapter)
         return res.status(404).json({ message: "Chapter not found" });
 
-      // if (chapter.content) console.log(chapter.content) // this logs the chapter content in the terminal
       res.status(200).json(chapter);
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -143,20 +118,7 @@ router.get("/reviews/:storyId", authMiddleware, async (req, res) => {
 
 //===================================== POST REQUEST =====================================//
 
-router.post("/post", async (req, res) => {
-  try {
-    const newSample = new Sample({ name: req.body.name }); // disregard this for now lol
-    const saved = await newSample.save();
-    res.json(saved);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-//=============================
-
 router.post("/new-user", async (req, res) => {
-  // http://localhost:5000/new-user
   try {
     const { username, password, email, profile_picture, bio, created_at } =
       req.body;
@@ -173,8 +135,6 @@ router.post("/new-user", async (req, res) => {
         .status(400)
         .json({ message: "who doesnt have an email? bruh" });
 
-    // creating a new user and sending the info to the db
-    //const hashedPassword = await bcrypt.hash(password, 10); // hashign the password so we cant be hacked by the IRS!!! (theyre watching me)
     const newUser = new User({
       username,
       password: await bcrypt.hash(password, 10),
@@ -182,14 +142,13 @@ router.post("/new-user", async (req, res) => {
       profile_picture,
       bio,
       created_at,
-    }); // nvm you can save space by running it directly
+    });
     const savedUser = await newUser.save();
-    // it worked!
     res
       .status(201)
       .json({ message: "user created successfully", user: savedUser });
   } catch (e) {
-    console.error(e, e.message); // it dindt work - you suck
+    console.error(e, e.message);
     res.status(500).json({ message: e.message });
   }
 });
@@ -197,7 +156,6 @@ router.post("/new-user", async (req, res) => {
 //=============================
 
 router.post("/new-story", authMiddleware, async (req, res) => {
-  // http://localhost:5000/new-story
   try {
     const {
       story_title,
@@ -208,7 +166,7 @@ router.post("/new-story", authMiddleware, async (req, res) => {
       updated_at,
       chapters,
     } = req.body;
-    let { status } = req.body; // so i can set it up as default draft
+    let { status } = req.body;
 
     if (!story_title)
       return res
@@ -223,8 +181,8 @@ router.post("/new-story", authMiddleware, async (req, res) => {
     if (!status) status = "draft";
 
     const newStory = new Story({
-      user_id: req.user._id, // Use authenticated user's ID
-      username: req.user.username, // Use authenticated user's username
+      user_id: req.user._id,
+      username: req.user.username,
       story_title,
       description,
       cover_image,
@@ -258,7 +216,6 @@ router.post("/add-chapter/:storyId", authMiddleware, async (req, res) => {
     const story = await Story.findById(storyId);
     if (!story) return res.status(404).json({ message: "story not found" });
 
-    // Check if user owns the story
     if (story.user_id.toString() !== req.user._id.toString()) {
       return res
         .status(403)
@@ -316,16 +273,14 @@ router.post("/new-review/:storyId", authMiddleware, async (req, res) => {
 //===================================== DELETE REQUEST =====================================//
 
 router.delete("/user/:id", authMiddleware, async (req, res) => {
-  // http://localhost:5000/user/685eb59574dd5f1871531f3e
   try {
-    const userId = req.params.id; // this is the id of the user we want to delete
+    const userId = req.params.id;
     if (userId !== req.user._id.toString()) {
       return res
         .status(403)
         .json({ message: "You are not authorized to delete this user" });
     }
 
-    // Delete User
     const deletedUser = await User.findByIdAndDelete(userId);
     if (!deletedUser)
       return res.status(404).json({ message: "User not found" });
@@ -339,11 +294,8 @@ router.delete("/user/:id", authMiddleware, async (req, res) => {
 //=============================
 
 router.delete("/delete-story/:id", authMiddleware, async (req, res) => {
-  // http://localhost:5000/stories/685c5596c5cf817cd3d809ba
   try {
-    const storyId = req.params.id; // this is the id of the story we want to delete
-
-    // Check if user owns the story
+    const storyId = req.params.id;
     const story = await Story.findById(storyId);
     if (!story) return res.status(404).json({ message: "Story not found" });
     if (story.user_id.toString() !== req.user._id.toString()) {
@@ -352,7 +304,6 @@ router.delete("/delete-story/:id", authMiddleware, async (req, res) => {
         .json({ message: "You are not authorized to delete this story" });
     }
 
-    // Delete Story
     await Story.findByIdAndDelete(storyId);
     res.status(200).json({ message: "Story deleted successfully" });
   } catch (error) {
@@ -366,7 +317,6 @@ router.delete(
   "/delete-chapter/:id/:chapter_number",
   authMiddleware,
   async (req, res) => {
-    // http://localhost:5000/stories/686a7301c6e0afc1fd327c3e/chapters/1
     try {
       const storyId = req.params.id;
       const chapterNumber = parseInt(req.params.chapter_number);
@@ -374,7 +324,6 @@ router.delete(
       const story = await Story.findById(storyId);
       if (!story) return res.status(404).json({ message: "Story not found" });
 
-      // Check if user owns the story
       if (story.user_id.toString() !== req.user._id.toString()) {
         return res
           .status(403)
@@ -387,7 +336,6 @@ router.delete(
       if (chapterIndex === -1)
         return res.status(404).json({ message: "Chapter not found" });
 
-      // Remove chapter
       story.chapters.splice(chapterIndex, 1);
       story.updated_at = new Date();
 
@@ -405,9 +353,7 @@ router.delete(
 
 //====================================== PUT REQUEST =====================================//
 
-// edit-story/:id
 router.put("/update-story/:id", authMiddleware, async (req, res) => {
-  // http://localhost:5000/update-story/686a7301c6e0afc1fd327c3e
   try {
     const storyId = req.params.id;
     const { story_title, description, genres } = req.body;
@@ -415,7 +361,6 @@ router.put("/update-story/:id", authMiddleware, async (req, res) => {
     const story = await Story.findById(storyId);
     if (!story) return res.status(404).json({ message: "Story not found" });
 
-    // Check if user owns the story
     if (story.user_id.toString() !== req.user._id.toString()) {
       return res
         .status(403)
@@ -437,14 +382,7 @@ router.put("/update-story/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// {
-//   "story_title": "The Last Horizon",
-//   "description": "A journey beyond the stars.",
-//   "genres": ["Sci-Fi", "Adventure"]
-// }
-
 //=============================
-// http://localhost:5000/stories/686a7301c6e0afc1fd327c3e/chapters/1
 
 router.put(
   "/edit-chapter/:storyId/:chapterNumber",
@@ -462,7 +400,6 @@ router.put(
       const story = await Story.findById(storyId);
       if (!story) return res.status(404).json({ message: "Story not found" });
 
-      // Check if user owns the story
       if (story.user_id.toString() !== req.user._id.toString()) {
         return res
           .status(403)
@@ -490,15 +427,9 @@ router.put(
   }
 );
 
-// {
-//   "title": "Updated Chapter Title",
-//   "content": "Updated chapter content goes here."
-// }
-
 //=============================
 
 router.put("/edit-user/:id", authMiddleware, async (req, res) => {
-  // http://localhost:5000/edit-user/685c5539c5cf817cd3d809b4
   try {
     const userId = req.params.id;
     if (userId !== req.user._id.toString()) {
@@ -527,17 +458,9 @@ router.put("/edit-user/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// {
-//     "username": "Updated username",
-//     "email": "Updated email.",
-//     "profile_picture": "Updated profile picture.",
-//     "bio": "Updated bio."
-// }
-
 //====================================== USER AUTH sign in and login =====================================//
 
 router.post("/login", async (req, res) => {
-  // /login bruv
   try {
     const { username, password } = req.body;
     if (!username || !password)

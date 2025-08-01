@@ -47,7 +47,9 @@ const getChapter = async (id, chapter_number) => {
 
 const getAllChapters = async (id) => {
   try {
-    const response = await fetch(`${url}stories/${id}/chapters`);
+    const response = await fetch(`${url}stories/${id}/chapters`, {
+      credentials: "include",
+    });
     const data = await response.json();
     //console.log("getAllChapters function called from app.js");
     // console.log(data);
@@ -59,7 +61,9 @@ const getAllChapters = async (id) => {
 
 const getStory = async (id) => {
   try {
-    const response = await fetch(`${url}stories/${id}`);
+    const response = await fetch(`${url}stories/${id}`, {
+      credentials: "include",
+    });
     const data = await response.json();
     //console.log("getStory function called from app.js");
     return data;
@@ -84,7 +88,9 @@ const getReviews = async (storyId) => {
 
 const getAllStories = async () => {
   try {
-    const response = await fetch(`${url}stories`);
+    const response = await fetch(`${url}stories`, {
+      credentials: "include",
+    });
     const data = await response.json();
     //console.log("getAllStories function called from app.js");
     return data;
@@ -95,7 +101,9 @@ const getAllStories = async () => {
 
 const getStoriesByUser = async (username) => {
   try {
-    const response = await fetch(`${url}stories/user/${username}`);
+    const response = await fetch(`${url}stories/user/${username}`, {
+      credentials: "include",
+    });
     const data = await response.json();
     //console.log("getStoriesByUser function called from app.js");
     return data;
@@ -199,7 +207,9 @@ const getIdByUsername = async (username) => {
 
 const getAllUsers = async () => {
   try {
-    const response = await fetch(`${url}user`);
+    const response = await fetch(`${url}user`, {
+      credentials: "include",
+    });
     const data = await response.json();
     //console.log("getAllUsers function called from app.js");
     return data;
