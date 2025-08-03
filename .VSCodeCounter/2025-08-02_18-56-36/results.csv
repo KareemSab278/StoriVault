@@ -1,0 +1,50 @@
+"filename", "language", "JSON", "JavaScript", "JavaScript JSX", "Markdown", "PostCSS", "HTML", "XML", "comment", "blank", "total"
+"/home/kareem/Desktop/StoriVault/Back-End/config/db.js", "JavaScript", 0, 11, 0, 0, 0, 0, 0, 0, 3, 14
+"/home/kareem/Desktop/StoriVault/Back-End/middleware/auth.js", "JavaScript", 0, 23, 0, 0, 0, 0, 0, 0, 5, 28
+"/home/kareem/Desktop/StoriVault/Back-End/models/Models.js", "JavaScript", 0, 42, 0, 0, 0, 0, 0, 1, 8, 51
+"/home/kareem/Desktop/StoriVault/Back-End/package-lock.json", "JSON", 1557, 0, 0, 0, 0, 0, 0, 0, 1, 1558
+"/home/kareem/Desktop/StoriVault/Back-End/package.json", "JSON", 25, 0, 0, 0, 0, 0, 0, 0, 1, 26
+"/home/kareem/Desktop/StoriVault/Back-End/routes/Routes.js", "JavaScript", 0, 429, 0, 0, 0, 0, 0, 22, 80, 531
+"/home/kareem/Desktop/StoriVault/Back-End/server.js", "JavaScript", 0, 31, 0, 0, 0, 0, 0, 1, 7, 39
+"/home/kareem/Desktop/StoriVault/Front-End/README.md", "Markdown", 0, 0, 0, 7, 0, 0, 0, 0, 6, 13
+"/home/kareem/Desktop/StoriVault/Front-End/app.js", "JavaScript", 0, 218, 0, 0, 0, 0, 0, 18, 22, 258
+"/home/kareem/Desktop/StoriVault/Front-End/eslint.config.js", "JavaScript", 0, 32, 0, 0, 0, 0, 0, 0, 2, 34
+"/home/kareem/Desktop/StoriVault/Front-End/index.html", "HTML", 0, 0, 0, 0, 0, 13, 0, 0, 1, 14
+"/home/kareem/Desktop/StoriVault/Front-End/package-lock.json", "JSON", 4306, 0, 0, 0, 0, 0, 0, 0, 1, 4307
+"/home/kareem/Desktop/StoriVault/Front-End/package.json", "JSON", 42, 0, 0, 0, 0, 0, 0, 0, 1, 43
+"/home/kareem/Desktop/StoriVault/Front-End/pages/ChapterListPage.jsx", "JavaScript JSX", 0, 0, 56, 0, 0, 0, 0, 5, 7, 68
+"/home/kareem/Desktop/StoriVault/Front-End/pages/ChapterPage.jsx", "JavaScript JSX", 0, 0, 51, 0, 0, 0, 0, 21, 10, 82
+"/home/kareem/Desktop/StoriVault/Front-End/pages/EditChapterPage.jsx", "JavaScript JSX", 0, 0, 98, 0, 0, 0, 0, 18, 11, 127
+"/home/kareem/Desktop/StoriVault/Front-End/pages/LandingPage.jsx", "JavaScript JSX", 0, 0, 39, 0, 0, 0, 0, 0, 7, 46
+"/home/kareem/Desktop/StoriVault/Front-End/pages/LeaveReviewPage.jsx", "JavaScript JSX", 0, 0, 96, 0, 0, 0, 0, 2, 9, 107
+"/home/kareem/Desktop/StoriVault/Front-End/pages/MyChapterListPage.jsx", "JavaScript JSX", 0, 0, 55, 0, 0, 0, 0, 2, 6, 63
+"/home/kareem/Desktop/StoriVault/Front-End/pages/MyChapterPage.jsx", "JavaScript JSX", 0, 0, 63, 0, 0, 0, 0, 9, 10, 82
+"/home/kareem/Desktop/StoriVault/Front-End/pages/MyStoriesPage.jsx", "JavaScript JSX", 0, 0, 49, 0, 0, 0, 0, 0, 7, 56
+"/home/kareem/Desktop/StoriVault/Front-End/pages/NewChapterPage.jsx", "JavaScript JSX", 0, 0, 119, 0, 0, 0, 0, 0, 6, 125
+"/home/kareem/Desktop/StoriVault/Front-End/pages/NewStoryPage.jsx", "JavaScript JSX", 0, 0, 157, 0, 0, 0, 0, 0, 7, 164
+"/home/kareem/Desktop/StoriVault/Front-End/pages/ProfilePage.jsx", "JavaScript JSX", 0, 0, 87, 0, 0, 0, 0, 3, 7, 97
+"/home/kareem/Desktop/StoriVault/Front-End/pages/SignIn.jsx", "JavaScript JSX", 0, 0, 99, 0, 0, 0, 0, 3, 6, 108
+"/home/kareem/Desktop/StoriVault/Front-End/pages/SignUp.jsx", "JavaScript JSX", 0, 0, 149, 0, 0, 0, 0, 2, 8, 159
+"/home/kareem/Desktop/StoriVault/Front-End/src/App.jsx", "JavaScript JSX", 0, 0, 135, 0, 0, 0, 0, 11, 13, 159
+"/home/kareem/Desktop/StoriVault/Front-End/src/assets/react.svg", "XML", 0, 0, 0, 0, 0, 0, 1, 0, 0, 1
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/ChapterCard.jsx", "JavaScript JSX", 0, 0, 23, 0, 0, 0, 0, 0, 3, 26
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/FloatingButtons.jsx", "JavaScript JSX", 0, 0, 50, 0, 0, 0, 0, 0, 3, 53
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/PageLayout.jsx", "JavaScript JSX", 0, 0, 222, 0, 0, 0, 0, 3, 15, 240
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/ProtectedRoute.jsx", "JavaScript JSX", 0, 0, 9, 0, 0, 0, 0, 1, 5, 15
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/Reviews.jsx", "JavaScript JSX", 0, 0, 43, 0, 0, 0, 0, 20, 6, 69
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/ReviewsModal.jsx", "JavaScript JSX", 0, 0, 76, 0, 0, 0, 0, 7, 8, 91
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/SearchBar.jsx", "JavaScript JSX", 0, 0, 91, 0, 0, 0, 0, 1, 15, 107
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/StoryCard.jsx", "JavaScript JSX", 0, 0, 57, 0, 0, 0, 0, 1, 4, 62
+"/home/kareem/Desktop/StoriVault/Front-End/src/components/TextBox.jsx", "JavaScript JSX", 0, 0, 24, 0, 0, 0, 0, 0, 2, 26
+"/home/kareem/Desktop/StoriVault/Front-End/src/custom hooks/Debouncer.jsx", "JavaScript JSX", 0, 0, 12, 0, 0, 0, 0, 0, 6, 18
+"/home/kareem/Desktop/StoriVault/Front-End/src/main.jsx", "JavaScript JSX", 0, 0, 24, 0, 0, 0, 0, 1, 3, 28
+"/home/kareem/Desktop/StoriVault/Front-End/src/store/authSlice.js", "JavaScript", 0, 15, 0, 0, 0, 0, 0, 1, 4, 20
+"/home/kareem/Desktop/StoriVault/Front-End/src/store/store.js", "JavaScript", 0, 7, 0, 0, 0, 0, 0, 1, 3, 11
+"/home/kareem/Desktop/StoriVault/Front-End/src/styles/App.css", "PostCSS", 0, 0, 0, 0, 37, 0, 0, 0, 6, 43
+"/home/kareem/Desktop/StoriVault/Front-End/src/styles/index.css", "PostCSS", 0, 0, 0, 0, 61, 0, 0, 0, 8, 69
+"/home/kareem/Desktop/StoriVault/Front-End/src/styles/searchBarStyle.js", "JavaScript", 0, 39, 0, 0, 0, 0, 0, 0, 4, 43
+"/home/kareem/Desktop/StoriVault/Front-End/vite.config.js", "JavaScript", 0, 5, 0, 0, 0, 0, 0, 1, 2, 8
+"/home/kareem/Desktop/StoriVault/README.md", "Markdown", 0, 0, 0, 28, 0, 0, 0, 0, 11, 39
+"/home/kareem/Desktop/StoriVault/package-lock.json", "JSON", 27, 0, 0, 0, 0, 0, 0, 0, 1, 28
+"/home/kareem/Desktop/StoriVault/package.json", "JSON", 5, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"Total", "-", 5962, 852, 1884, 35, 98, 13, 1, 155, 362, 9362

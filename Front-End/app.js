@@ -6,28 +6,6 @@ import { Routes, Route } from "react-router-dom";
 const url = "https://storivault-backend.onrender.com/";
 // const url = "http://localhost:5000/"; // Uncomment for local development
 
-// const logIn = async (credentials) => {
-//   const dispatch = useDispatch();
-//   try {
-//     const response = await fetch(`${url}login`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(credentials),
-//     });
-//     const data = await response.json();
-//     if (data.user) {
-//       dispatch(setUser(data.user)); // update redux state here
-//     }
-//     console.log("signIn function called from app.js");
-//     return data;
-//   } catch (error) {
-//     console.error(error.message);
-//   }
-// };
-//
-
-// i wrote this using nvim and now saved it
-
 const getChapter = async (id, chapter_number) => {
   try {
     const response = await fetch(

@@ -1,3 +1,5 @@
+Current status: StoriVault work is on halt for now because I got a new job, also the backend server is down because I cant afford it. The project is almost complete but still has a lot of work to do. Sucks.
+
 StoriVault
 
 StoriVault is a platform where users store and manage personal stories, diaries, and notes with ease.
