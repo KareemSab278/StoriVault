@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import { setUser } from "../src/store/authSlice";
 import { useNavigate } from "react-router-dom";
-const url = "https://storivault-backend.onrender.com/";
-// const url = "http://localhost:5000/";
+// const url = "https://storivault-backend.onrender.com/";
+const url = "http://localhost:5000/";
 
 function SignIn() {
   const dispatch = useDispatch();

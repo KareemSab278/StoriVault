@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./src/store/authSlice";
 import { Routes, Route } from "react-router-dom";
 
-const url = "https://storivault-backend.onrender.com/";
-// const url = "http://localhost:5000/"; // Uncomment for local development
+// const url = "https://storivault-backend.onrender.com/";
+const url = "http://localhost:5000/"; // Uncomment for local development
 
 const getChapter = async (id, chapter_number) => {
   try {
@@ -80,6 +80,19 @@ const getAllStories = async () => {
 const getStoriesByUser = async (username) => {
   try {
     const response = await fetch(`${url}stories/user/${username}`, {
+      credentials: "include",
+    });
+    const data = await response.json();
+    //console.log("getStoriesByUser function called from app.js");
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+const getReviewsByUser = async (username) => {
+  try {
+    const response = await fetch(`${url}reviews/user/${username}`, {
       credentials: "include",
     });
     const data = await response.json();
@@ -254,4 +267,5 @@ export {
   deleteChapter,
   getIdByUsername,
   getStoriesByUser,
+  getReviewsByUser,
 };

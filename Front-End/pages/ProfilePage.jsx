@@ -88,6 +88,7 @@ function ProfilePage() {
           </p>
         </div>
         <button onClick={() => navigate(`/mystories`)}>My Stories</button>
+        <button onClick={() => navigate(`/my-reviews`)}>My Reviews</button>
       </motion.div>
     </>
   );

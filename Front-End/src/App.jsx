@@ -18,10 +18,11 @@ import { MyStoriesPage } from "../pages/MyStoriesPage";
 import { MyChapterListPage } from "../pages/MyChapterListPage";
 import MyChapterPage from "../pages/MyChapterPage";
 import { LeaveReviewPage } from "../pages/LeaveReviewPage";
+import { MyReviewsPage } from "../pages/MyReviewsPage";
 
 function App() {
-  const url = "https://storivault-backend.onrender.com/"; // this is not secure - i must hide this backend url later!
-  // const url = "http://localhost:5000/";
+  // const url = "https://storivault-backend.onrender.com/"; // this is not secure - i must hide this backend url later!
+  const url = "http://localhost:5000/";
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,6 +54,15 @@ function App() {
           element={
             <ProtectedRoute>
               <LeaveReviewPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-reviews"
+          element={
+            <ProtectedRoute>
+              <MyReviewsPage />
             </ProtectedRoute>
           }
         />

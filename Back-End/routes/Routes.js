@@ -116,6 +116,16 @@ router.get("/reviews/:storyId", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/reviews/user/:username", authMiddleware, async (req, res) => {
+  // if a username ever changes then youre completely fucked because youll have to change the url to take user_id params instead but it aint the end of the world
+  try {
+    const userReviews = await Review.find({ username: req.params.username });
+    res.status(200).json(userReviews);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 //===================================== POST REQUEST =====================================//
 
 router.post("/new-user", async (req, res) => {
@@ -290,6 +300,11 @@ router.delete("/user/:id", authMiddleware, async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+// //=============================
+// router.delete("delete-review/:id"){ // im trying to delete reviews n shiet
+//   try
+// }
 
 //=============================
 
