@@ -1,4 +1,4 @@
-Current status: StoriVault work is on halt for now because I got a new job, also the backend server is down because I cant afford it. The project is almost complete but still has a lot of work to do. Sucks.
+Current status: StoriVault work is slowed down for now because I got a job, also the backend server is down because I cant afford it. The project is almost complete but still has a lot of work to do. Sucks tbh. design sucks. everything sucks ngl.
 
 StoriVault
 
