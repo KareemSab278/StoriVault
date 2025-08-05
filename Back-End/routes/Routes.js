@@ -302,9 +302,24 @@ router.delete("/user/:id", authMiddleware, async (req, res) => {
 });
 
 // //=============================
-// router.delete("delete-review/:id"){ // im trying to delete reviews n shiet
-//   try
-// }
+
+router.delete("/delete-review/:id", authMiddleware, async (req, res) => {
+  try {
+    const review = await Review.findById(req.params.id);
+    if (!review) return res.status(404).json({ message: "Review not found" });
+
+    if (review.user_id.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this review" });
+    }
+
+    await review.deleteOne();
+    res.status(200).json({ message: "Review deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 //=============================
 

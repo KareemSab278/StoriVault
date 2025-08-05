@@ -103,6 +103,19 @@ const getReviewsByUser = async (username) => {
   }
 };
 
+const deleteReviewByReviewId = async (reviewId) => {
+  try {
+    const response = await fetch(`${url}delete-review/${reviewId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
 // need to add a chapter to a story //
 const addChapter = async (storyId, chapter) => {
   try {
@@ -265,6 +278,7 @@ export {
   createNewReview,
   editChapter,
   deleteChapter,
+  deleteReviewByReviewId,
   getIdByUsername,
   getStoriesByUser,
   getReviewsByUser,
