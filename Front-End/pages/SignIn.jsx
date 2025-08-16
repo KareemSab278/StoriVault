@@ -43,7 +43,6 @@ function SignIn() {
       transition={{ duration: 1 }}
       style={{ textAlign: "center", marginTop: "2rem" }}
     >
-      backend services are currently down (cant afford the bill lol)
       <div
         style={{
           maxWidth: 400,
