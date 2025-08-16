@@ -5,9 +5,89 @@ const { User, Story, Review } = require("../models/Models");
 const authMiddleware = require("../middleware/auth"); // impoet auth for use ltr
 const jwt = require("jsonwebtoken");
 
-//===================================== GET REQUEST =====================================//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////// USER AUTH AND LOGIN ////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.get("/user", authMiddleware, async (req, res) => {
+router.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password)
+      return res.status(400).json({ message: "missing username or password" });
+
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid password" });
+
+    // generating a jwt token for this user
+    const token = jwt.sign(
+      { id: user._id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    ); // token expires in 1 hour
+
+    // setting the token in a cookie
+    res.cookie("token", token, {
+      httpOnly: true, // this makes the cookie inaccessible to js (helps prevent XSS attacks)
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: "Strict", // this helps prevent CSRF attacks???
+      // httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 60 * 60 * 1000,
+
+      // CSRF (Cross-Site Request Forgery): An attack where a malicious site tricks a user’s browser into sending unauthorized requests to your server.
+      // How sameSite: 'Strict' helps: It ensures the cookie is only sent for requests originating from your site (e.g., http://localhost:3000). Requests from other domains (e.g., a malicious site) won’t include the cookie, preventing CSRF.
+      // Why it’s safe here: Since the JWT is in an HttpOnly cookie (not accessible by JavaScript) and sameSite: 'Strict', it’s protected against both XSS (via HttpOnly) and CSRF (via sameSite).
+    });
+
+    res
+      .status(200)
+      .json({ message: "Login successful", user: user.username, token });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+router.get("/auth/status", async (req, res) => {
+  // /auth/status
+  try {
+    const token = req.cookies.token; // get the token from the cookie
+    if (!token)
+      return res.status(401).json({ message: "Unauthorized - no token found" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded)
+      return res.status(401).json({ message: "Unauthorized - bad token" });
+
+    const user = await User.findById(decoded.id).select("-password"); // find by user id and dont need password
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({ message: "User authenticated", user });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(401)
+      .json({ message: "Unauthorized - invalid or expired token" });
+  }
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////// GET REQUESTS ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+router.get("/user", authMiddleware, async (req, res) => { // Get all users
   try {
     const users = await User.find({}).select("-password");
     res.status(200).json(users);
@@ -16,7 +96,12 @@ router.get("/user", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/user/:id", authMiddleware, async (req, res) => {
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+router.get("/user/:id", authMiddleware, async (req, res) => { // Get user by ID
   try {
     const user = await User.findById(req.params.id).select("-password");
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -26,8 +111,13 @@ router.get("/user/:id", authMiddleware, async (req, res) => {
   }
 });
 
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
 // get stories by username
-router.get("/stories/user/:username", authMiddleware, async (req, res) => {
+router.get("/stories/user/:username", authMiddleware, async (req, res) => { // Get stories by username
   try {
     const stories = await Story.find({ username: req.params.username });
     if (!stories || stories.length === 0)
@@ -40,7 +130,12 @@ router.get("/stories/user/:username", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/user/username/:username", authMiddleware, async (req, res) => {
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+router.get("/user/username/:username", authMiddleware, async (req, res) => { // Get user by username
   try {
     const user = await User.findOne({ username: req.params.username }).select(
       "-password"
@@ -52,7 +147,12 @@ router.get("/user/username/:username", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/stories/:id", authMiddleware, async (req, res) => {
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+router.get("/stories/:id", authMiddleware, async (req, res) => { // Get story by ID
   try {
     const story = await Story.findById(req.params.id);
     if (!story) return res.status(404).json({ message: "Story not found" });
@@ -62,7 +162,12 @@ router.get("/stories/:id", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/stories", async (req, res) => {
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+router.get("/stories", async (req, res) => { // Get all stories
   try {
     const stories = await Story.find({});
     res.status(200).json(stories);
@@ -71,13 +176,18 @@ router.get("/stories", async (req, res) => {
   }
 });
 
-router.get("/stories/:id/chapters", authMiddleware, async (req, res) => {
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////y
+//////////////////////////////////////////////////////////
+
+router.get("/stories/:id/chapters", authMiddleware, async (req, res) => { // Get all chapters of a story
   try {
     const story = await Story.findById(req.params.id);
     if (!story) return res.status(404).json({ message: "Story not found" });
 
     if (story.chapters && story.chapters.length > 0) {
-      for (let i = 0; i < story.chapters.length; i++) {}
+      for (let i = 0; i < story.chapters.length; i++) { }
     }
 
     res.status(200).json(story.chapters);
@@ -86,28 +196,35 @@ router.get("/stories/:id/chapters", authMiddleware, async (req, res) => {
   }
 });
 
-router.get(
-  "/stories/:id/chapters/:chapter_number",
-  authMiddleware,
-  async (req, res) => {
-    try {
-      const story = await Story.findById(req.params.id);
-      if (!story) return res.status(404).json({ message: "Story not found" });
-      const chapter = story.chapters.find(
-        (c) => c.chapter_number === parseInt(req.params.chapter_number)
-      );
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-      if (!chapter)
-        return res.status(404).json({ message: "Chapter not found" });
+router.get("/stories/:id/chapters/:chapter_number", authMiddleware, async (req, res) => { // Get a specific chapter of a story
+  try {
+    const story = await Story.findById(req.params.id);
+    if (!story) return res.status(404).json({ message: "Story not found" });
+    const chapter = story.chapters.find(
+      (c) => c.chapter_number === parseInt(req.params.chapter_number)
+    );
 
-      res.status(200).json(chapter);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
-    }
+    if (!chapter)
+      return res.status(404).json({ message: "Chapter not found" });
+
+    res.status(200).json(chapter);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
+}
 );
 
-router.get("/reviews/:storyId", authMiddleware, async (req, res) => {
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+router.get("/reviews/:storyId", authMiddleware, async (req, res) => { // Get all reviews for a specific story
   try {
     const reviews = await Review.find({ story_id: req.params.storyId });
     res.status(200).json(reviews);
@@ -116,7 +233,12 @@ router.get("/reviews/:storyId", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/reviews/user/:username", authMiddleware, async (req, res) => {
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+router.get("/reviews/user/:username", authMiddleware, async (req, res) => { // Get all reviews for a specific user
   // if a username ever changes then youre completely fucked because youll have to change the url to take user_id params instead but it aint the end of the world
   try {
     const userReviews = await Review.find({ username: req.params.username });
@@ -126,9 +248,13 @@ router.get("/reviews/user/:username", authMiddleware, async (req, res) => {
   }
 });
 
-//===================================== POST REQUEST =====================================//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// POST REQUESTS ////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.post("/new-user", async (req, res) => {
+router.post("/new-user", async (req, res) => { // Create a new user
   try {
     const { username, password, email, profile_picture, bio, created_at } =
       req.body;
@@ -163,9 +289,12 @@ router.post("/new-user", async (req, res) => {
   }
 });
 
-//=============================
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-router.post("/new-story", authMiddleware, async (req, res) => {
+router.post("/new-story", authMiddleware, async (req, res) => { // Create a new story
   try {
     const {
       story_title,
@@ -212,9 +341,12 @@ router.post("/new-story", authMiddleware, async (req, res) => {
   }
 });
 
-//=============================
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-router.post("/add-chapter/:storyId", authMiddleware, async (req, res) => {
+router.post("/add-chapter/:storyId", authMiddleware, async (req, res) => { // Add a new chapter to a story
   try {
     const { storyId } = req.params;
     const { title, content, chapter_number } = req.body;
@@ -250,7 +382,12 @@ router.post("/add-chapter/:storyId", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/new-review/:storyId", authMiddleware, async (req, res) => {
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+router.post("/new-review/:storyId", authMiddleware, async (req, res) => { // Create a new review for a story
   try {
     const { username, stars, comment, created_at } = req.body;
     const existing = await Review.findOne({
@@ -280,9 +417,13 @@ router.post("/new-review/:storyId", authMiddleware, async (req, res) => {
   }
 });
 
-//===================================== DELETE REQUEST =====================================//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////// DELETE REQUESTS ///////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.delete("/user/:id", authMiddleware, async (req, res) => {
+router.delete("/user/:id", authMiddleware, async (req, res) => { // Delete a user
   try {
     const userId = req.params.id;
     if (userId !== req.user._id.toString()) {
@@ -301,9 +442,12 @@ router.delete("/user/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// //=============================
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-router.delete("/delete-review/:id", authMiddleware, async (req, res) => {
+router.delete("/delete-review/:id", authMiddleware, async (req, res) => { // Delete a review
   try {
     const review = await Review.findById(req.params.id);
     if (!review) return res.status(404).json({ message: "Review not found" });
@@ -321,9 +465,12 @@ router.delete("/delete-review/:id", authMiddleware, async (req, res) => {
   }
 });
 
-//=============================
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-router.delete("/delete-story/:id", authMiddleware, async (req, res) => {
+router.delete("/delete-story/:id", authMiddleware, async (req, res) => { // Delete a story
   try {
     const storyId = req.params.id;
     const story = await Story.findById(storyId);
@@ -341,49 +488,53 @@ router.delete("/delete-story/:id", authMiddleware, async (req, res) => {
   }
 });
 
-//=============================
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-router.delete(
-  "/delete-chapter/:id/:chapter_number",
-  authMiddleware,
-  async (req, res) => {
-    try {
-      const storyId = req.params.id;
-      const chapterNumber = parseInt(req.params.chapter_number);
+router.delete("/delete-chapter/:id/:chapter_number", authMiddleware, async (req, res) => { // Delete a chapter from a story
+  try {
+    const storyId = req.params.id;
+    const chapterNumber = parseInt(req.params.chapter_number);
 
-      const story = await Story.findById(storyId);
-      if (!story) return res.status(404).json({ message: "Story not found" });
+    const story = await Story.findById(storyId);
+    if (!story) return res.status(404).json({ message: "Story not found" });
 
-      if (story.user_id.toString() !== req.user._id.toString()) {
-        return res
-          .status(403)
-          .json({ message: "You are not authorized to modify this story" });
-      }
-
-      const chapterIndex = story.chapters.findIndex(
-        (c) => c.chapter_number === chapterNumber
-      );
-      if (chapterIndex === -1)
-        return res.status(404).json({ message: "Chapter not found" });
-
-      story.chapters.splice(chapterIndex, 1);
-      story.updated_at = new Date();
-
-      const updatedStory = await story.save();
-      res.status(200).json({
-        message: "Chapter deleted successfully",
-        story: updatedStory,
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: error.message });
+    if (story.user_id.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to modify this story" });
     }
+
+    const chapterIndex = story.chapters.findIndex(
+      (c) => c.chapter_number === chapterNumber
+    );
+    if (chapterIndex === -1)
+      return res.status(404).json({ message: "Chapter not found" });
+
+    story.chapters.splice(chapterIndex, 1);
+    story.updated_at = new Date();
+
+    const updatedStory = await story.save();
+    res.status(200).json({
+      message: "Chapter deleted successfully",
+      story: updatedStory,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
+}
 );
 
-//====================================== PUT REQUEST =====================================//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////// PUT REQUESTS /////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.put("/update-story/:id", authMiddleware, async (req, res) => {
+router.put("/update-story/:id", authMiddleware, async (req, res) => { // Update a story
   try {
     const storyId = req.params.id;
     const { story_title, description, genres } = req.body;
@@ -412,12 +563,12 @@ router.put("/update-story/:id", authMiddleware, async (req, res) => {
   }
 });
 
-//=============================
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-router.put(
-  "/edit-chapter/:storyId/:chapterNumber",
-  authMiddleware,
-  async (req, res) => {
+router.put("/edit-chapter/:storyId/:chapterNumber", authMiddleware, async (req, res) => { // Edit a chapter
     try {
       const storyId = req.params.storyId;
       const chapterNumber = parseInt(req.params.chapterNumber);
@@ -457,9 +608,12 @@ router.put(
   }
 );
 
-//=============================
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
-router.put("/edit-user/:id", authMiddleware, async (req, res) => {
+router.put("/edit-user/:id", authMiddleware, async (req, res) => { // Edit a user
   try {
     const userId = req.params.id;
     if (userId !== req.user._id.toString()) {
@@ -488,73 +642,10 @@ router.put("/edit-user/:id", authMiddleware, async (req, res) => {
   }
 });
 
-//====================================== USER AUTH sign in and login =====================================//
-
-router.post("/login", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    if (!username || !password)
-      return res.status(400).json({ message: "missing username or password" });
-
-    const user = await User.findOne({ username });
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid password" });
-
-    // generating a jwt token for this user
-    const token = jwt.sign(
-      { id: user._id, username: user.username },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    ); // token expires in 1 hour
-
-    // setting the token in a cookie
-    res.cookie("token", token, {
-      httpOnly: true, // this makes the cookie inaccessible to js (helps prevent XSS attacks)
-      // secure: process.env.NODE_ENV === "production",
-      // sameSite: "Strict", // this helps prevent CSRF attacks???
-      // httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 60 * 60 * 1000,
-
-      // CSRF (Cross-Site Request Forgery): An attack where a malicious site tricks a user’s browser into sending unauthorized requests to your server.
-      // How sameSite: 'Strict' helps: It ensures the cookie is only sent for requests originating from your site (e.g., http://localhost:3000). Requests from other domains (e.g., a malicious site) won’t include the cookie, preventing CSRF.
-      // Why it’s safe here: Since the JWT is in an HttpOnly cookie (not accessible by JavaScript) and sameSite: 'Strict', it’s protected against both XSS (via HttpOnly) and CSRF (via sameSite).
-    });
-
-    res
-      .status(200)
-      .json({ message: "Login successful", user: user.username, token });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-router.get("/auth/status", async (req, res) => {
-  // /auth/status
-  try {
-    const token = req.cookies.token; // get the token from the cookie
-    if (!token)
-      return res.status(401).json({ message: "Unauthorized - no token found" });
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decoded)
-      return res.status(401).json({ message: "Unauthorized - bad token" });
-
-    const user = await User.findById(decoded.id).select("-password"); // find by user id and dont need password
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    res.status(200).json({ message: "User authenticated", user });
-  } catch (error) {
-    console.error(error);
-    res
-      .status(401)
-      .json({ message: "Unauthorized - invalid or expired token" });
-  }
-});
-
-//====================================== END =====================================//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////// END /////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;
