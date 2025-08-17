@@ -224,7 +224,7 @@ router.get("/stories/:id/chapters/:chapter_number", authMiddleware, async (req, 
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
 
-router.get("/reviews/:storyId", authMiddleware, async (req, res) => { // Get all reviews for a specific story
+router.get("/reviews/:storyId", async (req, res) => { // Get all reviews for a specific story
   try {
     const reviews = await Review.find({ story_id: req.params.storyId });
     res.status(200).json(reviews);

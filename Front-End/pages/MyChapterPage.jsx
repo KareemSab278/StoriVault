@@ -22,11 +22,17 @@ function MyChapterPage() {
   const navigate = useNavigate();
 
   const handleDelete = async () => {
-    const result = await deleteChapter(storyId, chapterNumber);
-    if (result) {
-      navigate(`/chapters/${storyId}`);
-    } else {
-      alert("Failed to delete chapter");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this chapter?"
+    );
+    if (!confirmDelete) return;
+    else {
+      const result = await deleteChapter(storyId, chapterNumber);
+      if (result) {
+        navigate(`/chapters/${storyId}`);
+      } else {
+        alert("Failed to delete chapter");
+      }
     }
   };
 

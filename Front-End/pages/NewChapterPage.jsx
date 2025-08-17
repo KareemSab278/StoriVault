@@ -46,7 +46,7 @@ export default function AddChapter() {
         chapter_number: chapterNumber,
         updated_at: new Date(),
       });
-      navigate(`/chapter/${storyId}/${chapterNumber}`);
+      navigate(`/mychapter/${storyId}/${chapterNumber}`);
     } catch (error) {
       setBottomTextStatus("Failed to add chapter.");
       console.error(error);

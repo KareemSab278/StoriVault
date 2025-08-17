@@ -265,6 +265,23 @@ const deleteChapter = async (storyId, chapterNumber) => {
   }
 };
 
+const deleteStory = async (storyId) => {
+  try {
+    const response = await fetch(`${url}delete-story/${storyId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete story");
+    }
+    const data = await response.json();
+    //console.log("deleteStory function called from app.js");
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
 export {
   getChapter,
   getStory,
@@ -282,4 +299,5 @@ export {
   getIdByUsername,
   getStoriesByUser,
   getReviewsByUser,
+  deleteStory,
 };

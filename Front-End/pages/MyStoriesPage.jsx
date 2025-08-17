@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { StoryCard } from "../src/components/StoryCard";
 import { getStoriesByUser } from "../app";
 import { useSelector } from "react-redux";
+import { deleteStory } from "../app";
 
 export function MyStoriesPage() {
   const [stories, setStories] = useState([]);
@@ -22,6 +23,14 @@ export function MyStoriesPage() {
     }
     fetchStories();
   }, []);
+
+  const handleDelete = async (storyId) => {
+    const confirmed = window.confirm("Are you sure you want to delete this story?");
+    if (confirmed) {
+      await deleteStory(storyId);
+      setStories((prevStories) => prevStories.filter((story) => story._id !== storyId));
+    }
+  };
 
   if (loading) return <div>Loading stories...</div>;
   if (!stories.length)
@@ -44,11 +53,15 @@ export function MyStoriesPage() {
       <h1>My Stories</h1>
 
       {stories.map((story) => (
-        <StoryCard
-          key={story._id}
-          story={story}
-          onClick={() => navigate(`/mychapters/${story._id}`)}
-        />
+        <React.Fragment key={story._id}>
+          <StoryCard
+            story={story}
+            onClick={() => navigate(`/mychapters/${story._id}`)}
+          />
+          <button onClick={() => handleDelete(story._id)}>
+            Delete "{story.story_title}"?
+          </button>
+        </React.Fragment>
       ))}
     </motion.div>
   );

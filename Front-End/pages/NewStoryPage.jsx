@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { createNewStory } from "../app";
+import { useNavigate } from "react-router-dom";
 
 export function NewStory() {
+  const navigate = useNavigate();
   const [story, setStory] = useState({
     story_title: "",
     description: "",
@@ -34,7 +36,15 @@ export function NewStory() {
       updated_at: new Date(),
       chapters: [],
     };
-    await createNewStory(payload);
+    await createNewStory(payload)
+      .then(() => {
+        alert("Story created successfully!");
+        navigate("/mystories");
+      })
+      .catch((error) => {
+        console.error("Error creating story:", error);
+        alert("Failed to create story. Please try again.");
+      });
   };
 
   return (
@@ -102,6 +112,11 @@ export function NewStory() {
                   "Romance",
                   "Horror",
                   "Thriller",
+                  "Adventure",
+                  "Action",
+                  "Comedy",
+                  "Drama",
+                  "Dystopian",
                   "Historical",
                   "Young Adult",
                   "Non-Fiction",

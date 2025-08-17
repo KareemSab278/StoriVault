@@ -6,7 +6,7 @@ export function StoryCard({ story, onClick }) {
   const [over, setOver] = useState(false); // set the state of the mouse hover
   const cardStyle = {
     // create the style object here
-    width: "80%",
+    width: "100%",
     margin: "2rem auto",
     padding: 12,
     border: "1px solid #ccc",

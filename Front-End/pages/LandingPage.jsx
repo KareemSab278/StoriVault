@@ -5,6 +5,7 @@ import { StoryCard } from "../src/components/StoryCard";
 import { getAllStories } from "../app";
 
 export default function LandingPage() {
+  // https://reactbits.dev/components/circular-gallery
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -30,16 +31,23 @@ export default function LandingPage() {
     >
       <h1>Welcome to StoriVault!</h1>
       <p>A place full of books written by lonely people who don't shower</p>
-
       <h2>Stories</h2>
-
-      {stories.map((story) => (
-        <StoryCard
-          key={story._id}
-          story={story}
-          onClick={() => navigate(`/chapters/${story._id}`)}
-        />
-      ))}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "2rem",
+          padding: "2rem",
+        }}
+      >
+        {stories.map((story) => (
+          <StoryCard
+            key={story._id}
+            story={story}
+            onClick={() => navigate(`/chapters/${story._id}`)}
+          />
+        ))}
+      </div>
     </motion.div>
   );
 }

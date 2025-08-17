@@ -43,9 +43,9 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            //<ProtectedRoute>
               <LandingPage />
-            </ProtectedRoute>
+            //</ProtectedRoute>
           }
         />
 

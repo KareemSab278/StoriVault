@@ -15,7 +15,7 @@ function ProfilePage() {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    if (user?.username) {
+    if (user.username) {
       setSignedInUser(user);
       // console.log(user);
     } else {
@@ -24,21 +24,28 @@ function ProfilePage() {
   }, [user]);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        setLoading(true);
-        const userInfo = await getIdByUsername(signedInUser.username);
-        if (userInfo) {
-          setSignedInUser(userInfo);
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const fetchUserInfo = async () => {
+    // Only fetch if signedInUser is an object and has a username
+    if (
+      typeof signedInUser !== "object" ||
+      !signedInUser.username
+    ) {
+      return;
+    }
+    try {
+      setLoading(true);
+      const userInfo = await getIdByUsername(signedInUser.username);
+      if (userInfo) {
+        setSignedInUser(userInfo);
       }
-    };
-    fetchUserInfo();
-  }, [signedInUser.username]);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchUserInfo();
+}, [signedInUser.username]);
 
   if (loading) return <div>Loading profile...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
