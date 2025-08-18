@@ -4,22 +4,27 @@ import TextField from '@mui/material/TextField';
 export default function TextBox({ text }) {
   return (
     <Box
-      component="form"
-      sx={{ '& .MuiTextField-root': { m: 2, width: '90%', height: '50%' } }}
-      noValidate
-      autoComplete="off"
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+      }}
     >
-      <div>
-        <TextField
-          multiline
-          minRows={20}
-          value={text}
-          InputProps={{
-            readOnly: true,
-            style: { color: 'white' }
-          }}
-        />
-      </div>
+      <TextField
+        multiline
+        minRows={20}
+        value={text}
+        InputProps={{
+          readOnly: true,
+          style: { color: 'white', width: '100%' },
+        }}
+        sx={{
+          width: '100%',
+          maxWidth: 700,
+          background: '#222',
+          borderRadius: 2,
+        }}
+      />
     </Box>
   );
 }

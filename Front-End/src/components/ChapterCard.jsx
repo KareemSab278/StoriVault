@@ -8,9 +8,10 @@ export function ChapterCard({ chapter }) {
     <div
       style={{
         width: "100%",
-        maxWidth: 600,
+        minWidth: 800,
+        maxWidth: 1100,
         margin: "2rem auto",
-        padding: 24,
+        padding: 20, 
         border: "1px solid #ccc",
         borderRadius: 8,
         boxSizing: "border-box",
