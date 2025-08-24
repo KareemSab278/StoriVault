@@ -51,6 +51,8 @@ function SignIn() {
           border: "1px solid #ccc",
           borderRadius: 8,
           marginBottom: "2rem",
+          userSelect: "none",
+          WebkitTapHighlightColor: "transparent",
         }}
       >
         <h2>Sign In</h2>

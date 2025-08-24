@@ -69,6 +69,8 @@ function SignUp() {
             border: "1px solid #ccc",
             borderRadius: 8,
             marginBottom: "2rem",
+            userSelect: "none",
+            WebkitTapHighlightColor: "transparent",
           }}
         >
           <h2>Sign Up</h2>

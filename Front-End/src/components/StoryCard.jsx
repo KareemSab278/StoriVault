@@ -7,15 +7,18 @@ export function StoryCard({ story, onClick }) {
   const cardStyle = {
     // create the style object here
     width: "100%",
-    margin: "2rem auto",
+    maxWidth: 350,
+    // margin: "2rem auto",
     padding: 12,
     border: "1px solid #ccc",
     borderRadius: 20,
     cursor: "pointer",
-    transform: "scale(1)",
+    transform: over ? "scale(1.1)" : "scale(1)",
     transition: "transform 0.2s ease",
+    boxSizing: "border-box",
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
   };
-  cardStyle.transform = over ? "scale(1.1)" : "scale(1)";
 
   if (!story) return <div>No story data</div>;
 

@@ -10,6 +10,8 @@ export function ChapterCard({ chapter }) {
         width: "70vw",
         maxWidth: 700,
         boxSizing: "border-box",
+        userSelect: "none",
+        WebkitTapHighlightColor: "transparent",
       }}
     >
       <h2>
