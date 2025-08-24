@@ -7,13 +7,8 @@ export function ChapterCard({ chapter }) {
   return (
     <div
       style={{
-        width: "100%",
-        // minWidth: "80%",
-        maxWidth: 1100,
-        margin: "2rem auto",
-        padding: 20, 
-        border: "1px solid #ccc",
-        borderRadius: 8,
+        width: "70vw",
+        maxWidth: 700,
         boxSizing: "border-box",
       }}
     >
