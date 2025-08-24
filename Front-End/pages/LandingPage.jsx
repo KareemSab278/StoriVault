@@ -33,12 +33,12 @@ export default function LandingPage() {
       <p>A place full of books written by lonely people who don't shower</p>
       <h2>Stories</h2>
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "2rem",
-          padding: "2rem",
-        }}
+        // style={{
+        //   display: "grid",
+        //   gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        //   gap: "2rem",
+        //   padding: "2rem",
+        // }}
       >
         {stories.map((story) => (
           <StoryCard

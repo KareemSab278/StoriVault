@@ -57,7 +57,7 @@ function ChapterPage() {
         transition={{ duration: 1 }}
         style={{ textAlign: "center", marginTop: "2rem" }}
       >
-        <ChapterCard chapter={chapter} />
+        <ChapterCard chapter={chapter} sx={{ maxWidth: "100%" }}/>
         {/* <button
           style={{ margin: "20px", background: "red" }}
           onClick={handleDelete}

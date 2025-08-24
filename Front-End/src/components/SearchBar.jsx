@@ -58,7 +58,7 @@ export const SearchBar = ({ useCase }) => {
   const field = useCase === "Search Stories" ? "story_title" : "username";
 
   return (
-    <Search>
+    <Search sx={{ bgcolor: "#e3f2fd", width: 'auto', borderRadius: 5, position: "relative" }}>
       {searchQuery && searchResults.length > 0 && (
         <Box
           sx={{

@@ -115,12 +115,12 @@ function PageLayout(props) {
 
   return (
     <Box
-      sx={{ display: "flex", bgcolor: "background.default", minHeight: "auto" }}
+      sx={{ display: "flex", bgcolor: "background.default", minHeight: "auto", minWidth: "100%" }}
     >
       <CssBaseline />
-      <AppBar component="nav" sx={{ bgcolor: "#124ba1" }}>
+      <AppBar component="nav" sx={{ bgcolor: "#124ba1", width: "100%", minWidth: "100%" }}>
         {" "}
-        <Toolbar>
+        <Toolbar sx={{ minWidth: "100%" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
