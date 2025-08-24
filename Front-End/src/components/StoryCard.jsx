@@ -42,6 +42,8 @@ export function StoryCard({ story, onClick }) {
             borderRadius: "10%",
             objectFit: "cover",
             marginBottom: 10,
+            userSelect: "none",
+            WebkitTapHighlightColor: "transparent",
           }}
         />
         <p>
