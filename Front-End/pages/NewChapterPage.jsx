@@ -66,6 +66,8 @@ export default function AddChapter() {
           padding: 24,
           border: "1px solid #ccc",
           borderRadius: 8,
+          userSelect: "none",
+          WebkitTapHighlightColor: "transparent"
         }}
       >
         <h2>Add Chapter #{chapterNumber}</h2>

@@ -24,28 +24,25 @@ function ProfilePage() {
   }, [user]);
 
   useEffect(() => {
-  const fetchUserInfo = async () => {
-    // Only fetch if signedInUser is an object and has a username
-    if (
-      typeof signedInUser !== "object" ||
-      !signedInUser.username
-    ) {
-      return;
-    }
-    try {
-      setLoading(true);
-      const userInfo = await getIdByUsername(signedInUser.username);
-      if (userInfo) {
-        setSignedInUser(userInfo);
+    const fetchUserInfo = async () => {
+      // Only fetch if signedInUser is an object and has a username
+      if (typeof signedInUser !== "object" || !signedInUser.username) {
+        return;
       }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchUserInfo();
-}, [signedInUser.username]);
+      try {
+        setLoading(true);
+        const userInfo = await getIdByUsername(signedInUser.username);
+        if (userInfo) {
+          setSignedInUser(userInfo);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUserInfo();
+  }, [signedInUser.username]);
 
   if (loading) return <div>Loading profile...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
@@ -66,6 +63,8 @@ function ProfilePage() {
             padding: 24,
             border: "1px solid #ccc",
             borderRadius: 8,
+            userSelect: "none",
+            WebkitTapHighlightColor: "transparent",
           }}
         >
           <h2>Profile Page</h2>
@@ -78,6 +77,8 @@ function ProfilePage() {
               borderRadius: "50%",
               objectFit: "cover",
               marginBottom: 16,
+              userSelect: "none",
+              WebkitTapHighlightColor: "transparent",
             }}
           />
           <p>

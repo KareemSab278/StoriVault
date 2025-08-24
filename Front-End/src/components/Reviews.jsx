@@ -45,7 +45,15 @@ export function Reviews({ storyId }) {
   }, [storyId]);
 
   return (
-    <Box sx={{ width: 200, display: "flex", alignItems: "center", userSelect: "none", WebkitTapHighlightColor: "transparent" }}>
+    <Box
+      sx={{
+        width: 200,
+        display: "flex",
+        alignItems: "center",
+        userSelect: "none",
+        WebkitTapHighlightColor: "transparent",
+      }}
+    >
       <p
         style={{ textAlign: "center", marginLeft: "1rem", marginRight: "1rem" }}
       >

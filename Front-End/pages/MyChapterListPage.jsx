@@ -34,6 +34,8 @@ export function MyChapterListPage() {
               marginBottom: "1rem",
               transform: isHovered ? "scale(1.1)" : "scale(1)",
               transition: "transform 0.2s ease",
+              userSelect: "none",
+              WebkitTapHighlightColor: "transparent",
             };
 
             return (

@@ -115,10 +115,18 @@ function PageLayout(props) {
 
   return (
     <Box
-      sx={{ display: "flex", bgcolor: "background.default", minHeight: "auto", minWidth: "100%" }}
+      sx={{
+        display: "flex",
+        bgcolor: "background.default",
+        minHeight: "auto",
+        minWidth: "100%",
+      }}
     >
       <CssBaseline />
-      <AppBar component="nav" sx={{ bgcolor: "#124ba1", width: "100%", minWidth: "100%" }}>
+      <AppBar
+        component="nav"
+        sx={{ bgcolor: "#124ba1", width: "100%", minWidth: "100%" }}
+      >
         {" "}
         <Toolbar sx={{ minWidth: "100%" }}>
           <IconButton
@@ -214,6 +222,8 @@ function PageLayout(props) {
               width: drawerWidth,
               backgroundColor: "#124ba1",
               color: "#fff",
+              userSelect: "none",
+              WebkitTapHighlightColor: "transparent",
             },
           }}
         >

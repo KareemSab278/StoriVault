@@ -55,6 +55,8 @@ export function LeaveReviewPage() {
             padding: 24,
             border: "1px solid #ccc",
             borderRadius: 8,
+            userSelect: "none",
+            WebkitTapHighlightColor: "transparent",
           }}
         >
           <h2>Leave A Review</h2>

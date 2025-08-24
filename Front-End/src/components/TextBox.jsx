@@ -18,7 +18,12 @@ export default function TextBox({ text }) {
         value={text}
         InputProps={{
           readOnly: true,
-          style: { color: "white", width: "100%" },
+          style: {
+            color: "white",
+            width: "100%",
+            userSelect: "none",
+            WebkitTapHighlightColor: "transparent",
+          },
         }}
         sx={{
           width: "100%",

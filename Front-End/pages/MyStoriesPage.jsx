@@ -25,10 +25,14 @@ export function MyStoriesPage() {
   }, []);
 
   const handleDelete = async (storyId) => {
-    const confirmed = window.confirm("Are you sure you want to delete this story?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this story?"
+    );
     if (confirmed) {
       await deleteStory(storyId);
-      setStories((prevStories) => prevStories.filter((story) => story._id !== storyId));
+      setStories((prevStories) =>
+        prevStories.filter((story) => story._id !== storyId)
+      );
     }
   };
 
@@ -48,7 +52,12 @@ export function MyStoriesPage() {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
-      style={{ textAlign: "center", marginTop: "2rem" }}
+      style={{
+        textAlign: "center",
+        marginTop: "2rem",
+        userSelect: "none",
+        WebkitTapHighlightColor: "transparent",
+      }}
     >
       <h1>My Stories</h1>
 
