@@ -21,8 +21,8 @@ import { LeaveReviewPage } from "../pages/LeaveReviewPage";
 import { MyReviewsPage } from "../pages/MyReviewsPage";
 
 function App() {
-  // const url = "https://storivault-backend.onrender.com/"; // this is not secure - i must hide this backend url later!
-  const url = "http://localhost:5000/";
+  const url = "https://storivault-backend.onrender.com/"; // this is not secure - i must hide this backend url later!
+  // const url = "http://localhost:5000/";
   const dispatch = useDispatch();
 
   useEffect(() => {
